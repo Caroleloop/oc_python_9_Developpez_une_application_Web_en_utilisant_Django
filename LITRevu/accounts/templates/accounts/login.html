@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Créer un compte</h1>
-  <form method="post" aria-label="Formulaire d'inscription">
+  <h1>Login</h1>
+  <form method="post" aria-label="Login form">
     {% csrf_token %}
     {% for field in form %}
-      <div>
+      <div style="margin-bottom: 1em;">
         <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
         {{ field }}
         {% if field.help_text %}
@@ -15,6 +15,7 @@
         {% endif %}
       </div>
     {% endfor %}
-    <button type="submit">S'inscrire</button>
+    <button type="submit">Sign in</button>
   </form>
+  <p>No account yet? <a href="{% url 'signup' %}">Create a new account</a></p>
 {% endblock %}

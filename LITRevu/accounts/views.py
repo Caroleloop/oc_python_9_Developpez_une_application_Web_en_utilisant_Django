@@ -1,5 +1,5 @@
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.shortcuts import render, redirect
 
 
@@ -9,25 +9,25 @@ def home_redirect(request):
 
 def signup_view(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect("feed")
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, "accounts/signup.html", {"form": form})
 
 
 def login_view(request):
     if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
+        form = CustomAuthenticationForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
             return redirect("feed")
     else:
-        form = AuthenticationForm()
+        form = CustomAuthenticationForm()
     return render(request, "accounts/login.html", {"form": form})
 
 
