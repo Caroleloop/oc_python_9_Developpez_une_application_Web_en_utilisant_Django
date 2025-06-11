@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Home - LITRevu{% endblock %}
+{% block content %}
+<h1>Welcome to LITRevu</h1>
+
+<div class="auth-container">
+  <!-- Colonne Inscription : juste un bouton pour aller sur la page d'inscription -->
+  <div class="auth-column">
+    <h2>Create an account</h2>
+    <a href="{% url 'signup' %}">
+      <button type="button">Sign up</button>
+    </a>
+  </div>
+
+  <!-- Colonne Connexion : formulaire de connexion comme avant -->
+  <div class="auth-column">
+    <h2>Log in</h2>
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      {% for field in login_form %}
+        <div>
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
+          {{ field }}
+          {% if field.errors %}
+            <div class="error">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" name="login_submit">Login</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,10 +1,25 @@
-from django.contrib.auth import login, logout
+from django.contrib.auth import login
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.shortcuts import render, redirect
 
 
-def home_redirect(request):
-    return redirect("login")
+def dual_auth_view(request):
+    login_form = CustomAuthenticationForm()
+    if request.method == "POST":
+        login_form = CustomAuthenticationForm(data=request.POST)
+        if login_form.is_valid():
+            user = login_form.get_user()
+            login(request, user)
+            return redirect("feed")
+        else:
+            print(login_form.errors)
+    return render(
+        request,
+        "accounts/home.html",
+        {
+            "login_form": login_form,
+        },
+    )
 
 
 def signup_view(request):
@@ -16,22 +31,9 @@ def signup_view(request):
             return redirect("feed")
     else:
         form = CustomUserCreationForm()
+
     return render(request, "accounts/signup.html", {"form": form})
 
 
-def login_view(request):
-    if request.method == "POST":
-        form = CustomAuthenticationForm(data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect("feed")
-    else:
-        form = CustomAuthenticationForm()
-    return render(request, "accounts/login.html", {"form": form})
-
-
-def logout_view(request):
-    if request.method == "POST":
-        logout(request)
-        return redirect("login")
+def feed_view(request):
+    return render(request, "feed/feed.html")
