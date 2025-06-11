@@ -1,1 +1,9 @@
 <h1>Welcome to the news feed</h1>
+<div class="auth-container">
+  <div class="auth-column">
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit">Logout</button>
+    </form>
+  </div>
+</div>
