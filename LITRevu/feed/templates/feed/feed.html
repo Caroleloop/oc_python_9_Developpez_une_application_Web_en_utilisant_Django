@@ -1,8 +1,19 @@
+<!-- Titre principal de la page -->
 <h1>Welcome to the news feed</h1>
+
+<!-- Conteneur principal pour la section d'authentification -->
 <div class="auth-container">
+  
+  <!-- Colonne dédiée à l'authentification (ex: bouton de déconnexion) -->
   <div class="auth-column">
+    
+    <!-- Formulaire pour déconnexion, envoi une requête POST à l'URL 'logout' -->
     <form method="post" action="{% url 'logout' %}">
+      
+      <!-- Protection contre les attaques CSRF (Cross-Site Request Forgery) -->
       {% csrf_token %}
+      
+      <!-- Bouton qui soumet le formulaire pour se déconnecter -->
       <button type="submit">Logout</button>
     </form>
   </div>

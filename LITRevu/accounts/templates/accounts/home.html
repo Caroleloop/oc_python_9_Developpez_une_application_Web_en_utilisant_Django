@@ -1,31 +1,41 @@
 {% extends "base.html" %}
 {% block title %}Home - LITRevu{% endblock %}
 {% block content %}
+<!-- Titre principal de la page d'accueil -->
 <h1>Welcome to LITRevu</h1>
 
+<!-- Conteneur principal pour les sections "Inscription" et "Connexion" -->
 <div class="auth-container">
-  <!-- Colonne Inscription : juste un bouton pour aller sur la page d'inscription -->
+
+  <!-- Colonne pour l'inscription : contient un bouton qui redirige vers la page d'inscription -->
   <div class="auth-column">
     <h2>Create an account</h2>
     <a href="{% url 'signup' %}">
-      <button type="button">Sign up</button>
+      <button type="button">Sign up</button> <!-- Bouton de redirection vers le formulaire d'inscription -->
     </a>
   </div>
 
-  <!-- Colonne Connexion : formulaire de connexion comme avant -->
+  <!-- Colonne pour la connexion : contient un formulaire de login -->
   <div class="auth-column">
     <h2>Log in</h2>
+    <!-- Formulaire POST envoyé à l'URL associée à la vue 'login' -->
     <form method="post" action="{% url 'login' %}">
-      {% csrf_token %}
-      {% for field in login_form %}
+      {% csrf_token %} <!-- Jeton CSRF pour sécuriser le formulaire -->
+      
+      {% for field in login_form %} <!-- Boucle sur tous les champs du formulaire de connexion -->
         <div>
+          <!-- Affiche le label du champ -->
           <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
+          <!-- Affiche le champ (input, etc.) -->
           {{ field }}
           {% if field.errors %}
+            <!-- Si des erreurs sont présentes pour ce champ, elles sont affichées ici -->
             <div class="error">{{ field.errors }}</div>
           {% endif %}
         </div>
       {% endfor %}
+
+      <!-- Bouton pour soumettre le formulaire de connexion -->
       <button type="submit" name="login_submit">Login</button>
     </form>
   </div>

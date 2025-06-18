@@ -1,57 +1,67 @@
+/* Centre le texte des éléments h1 */
 h1 {
   text-align: center;
 }
 
+/* Conteneur principal d'authentification en flexbox avec un espacement entre les colonnes */
 .auth-container {
   display: flex;
-  gap: 2rem;
-  justify-content: space-between;
-  margin-top: 2rem;
+  gap: 2rem; /* espace entre les colonnes */
+  justify-content: space-between; /* espace maximal entre les éléments */
+  margin-top: 2rem; /* marge au-dessus du conteneur */
 }
 
+/* Style des colonnes d'authentification */
 .auth-column {
-  flex: 1;
-  background: #fff;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  flex: 1; /* chaque colonne prend une part égale de l'espace disponible */
+  background: #fff; /* fond blanc */
+  padding: 2rem; /* espace intérieur */
+  border-radius: 8px; /* bords arrondis */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* légère ombre portée */
 }
 
+/* Titre de chaque colonne centré avec une marge en dessous */
 .auth-column h2 {
   text-align: center;
   margin-bottom: 1rem;
 }
 
+/* Espace entre chaque div (groupes de champs) dans le formulaire */
 .auth-column form div {
   margin-bottom: 1rem;
 }
 
+/* Style des étiquettes des champs : texte en gras */
 .auth-column label {
   font-weight: bold;
 }
 
+/* Style des champs de saisie : pleine largeur, padding et bord arrondi */
 .auth-column input {
-  width: 100%;
-  padding: 0.5rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+  width: 100%; /* prend toute la largeur du parent */
+  padding: 0.5rem; /* espace intérieur */
+  border-radius: 4px; /* bords arrondis */
+  border: 1px solid #ccc; /* bord gris clair */
 }
 
+/* Style des boutons : pleine largeur, couleur de fond, texte blanc, arrondi */
 .auth-column button {
   width: 100%;
   padding: 0.8rem;
-  background-color: #3366cc;
+  background-color: #3366cc; /* bleu */
   color: white;
   border: none;
   border-radius: 4px;
   font-size: 1rem;
-  cursor: pointer;
+  cursor: pointer; /* curseur pointeur au survol */
 }
 
+/* Couleur du bouton change au survol */
 .auth-column button:hover {
-  background-color: #254a99;
+  background-color: #254a99; /* bleu plus foncé */
 }
 
+/* Style des messages d'erreur : texte rouge et un peu plus petit */
 .error {
   color: red;
   font-size: 0.9rem;

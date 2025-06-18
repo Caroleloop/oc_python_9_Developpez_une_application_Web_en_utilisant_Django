@@ -1,22 +1,28 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {# Ce template hérite de base.html pour réutiliser la structure commune du site #}
 
-{% block content %}
-  <h1>Create an account</h1>
-  <form method="post" aria-label="Registration form">
-    {% csrf_token %}
-    {% for field in form %}
-      <div style="margin-bottom: 1em;">
-        <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
-        {{ field }}
-        {% if field.help_text %}
-          <small>{{ field.help_text }}</small>
+{% block content %} {# Début du bloc de contenu spécifique à cette page #}
+  <h1>Create an account</h1> {# Titre principal de la page d'inscription #}
+
+  <form method="post" aria-label="Registration form"> {# Formulaire HTML utilisant la méthode POST, avec un label ARIA pour l'accessibilité #}
+    {% csrf_token %} {# Jeton CSRF pour sécuriser le formulaire contre les attaques CSRF #}
+
+    {% for field in form %} {# Boucle sur chaque champ du formulaire Django #}
+      <div style="margin-bottom: 1em;"> {# Conteneur avec un espacement en bas pour chaque champ #}
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label><br> {# Affiche l'étiquette du champ liée à l'input #}
+        {{ field }} {# Rend le champ HTML du formulaire (input, textarea, etc.) #}
+
+        {% if field.help_text %} {# Vérifie s'il y a un texte d'aide pour le champ #}
+          <small>{{ field.help_text }}</small> {# Affiche le texte d'aide sous le champ #}
         {% endif %}
-        {% if field.errors %}
-          <div role="alert" style="color: red;">{{ field.errors }}</div>
+
+        {% if field.errors %} {# Vérifie s'il y a des erreurs de validation pour le champ #}
+          <div role="alert" style="color: red;">{{ field.errors }}</div> {# Affiche les erreurs en rouge, avec un rôle ARIA d'alerte pour l'accessibilité #}
         {% endif %}
       </div>
-    {% endfor %}
-    <button type="submit">Sign up</button>
+    {% endfor %} {# Fin de la boucle sur les champs #}
+
+    <button type="submit">Sign up</button> {# Bouton de soumission du formulaire #}
   </form>
-  <p>Already have an account? <a href="{% url 'home' %}">Login</a></p>
-{% endblock %}
+
+  <p>Already have an account? <a href="{% url 'home' %}">Login</a></p> {# Lien vers la page de connexion si l'utilisateur a déjà un compte #}
+{% endblock %} {# Fin du bloc de contenu #}
