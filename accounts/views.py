@@ -5,6 +5,9 @@ from django.contrib.auth import logout
 
 
 def login_view(request):
+
+
+
     # Initialisation du formulaire de connexion vide
     login_form = CustomAuthenticationForm()
 
@@ -66,8 +69,3 @@ def logout_view(request):
 
     # Redirection vers la page d'accueil
     return redirect("home")
-
-
-def feed_view(request):
-    # Affichage de la page principale après connexion
-    return render(request, "feed/feed.html")

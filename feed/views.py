@@ -14,7 +14,7 @@ def feed_view(request):
     current_user = request.user
 
     # Récupérer les utilisateurs suivis
-    followed_users = UserFollows.objects.filter(user=current_user).values_list("followed_user", flat=True)
+    followed_users = UserFollows.objects.filter(user=current_user.id).values_list("followed_user", flat=True)
 
     # Inclure l'utilisateur courant dans les auteurs à afficher
     visible_users = list(followed_users) + [current_user.id]

@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     # Définition d'une URL qui mappe la route 'feed/' à la vue 'feed_view'
     # Le nom 'feed' permet de référencer cette URL facilement ailleurs dans le projet
-    path("feed/", feed_view, name="feed"),
+    path("", feed_view, name="feed"),
     
     path('ticket/add/', views.add_ticket, name='add_ticket'),
     path('ticket/<int:ticket_id>/edit/', views.edit_ticket, name='edit_ticket'),
