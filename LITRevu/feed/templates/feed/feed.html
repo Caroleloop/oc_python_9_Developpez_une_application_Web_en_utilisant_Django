@@ -1,20 +1,66 @@
+{% load custom_filters %}
 <!-- Titre principal de la page -->
-<h1>Welcome to the news feed</h1>
+<header>
+    <h1>LITReview</h1>
+    <nav>
+        <a href="#">Abonnements</a>
+        <a href="#">Flux</a>
+        <a href="#">Posts</a>
+        <!-- Bouton pour se déconnecter -->
+        <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+</header>
 
+
+<main>
 <!-- Conteneur principal pour la section d'authentification -->
 <div class="auth-container">
-  
-  <!-- Colonne dédiée à l'authentification (ex: bouton de déconnexion) -->
-  <div class="auth-column">
-    
-    <!-- Formulaire pour déconnexion, envoi une requête POST à l'URL 'logout' -->
-    <form method="post" action="{% url 'logout' %}">
-      
-      <!-- Protection contre les attaques CSRF (Cross-Site Request Forgery) -->
-      {% csrf_token %}
-      
-      <!-- Bouton qui soumet le formulaire pour se déconnecter -->
-      <button type="submit">Logout</button>
-    </form>
-  </div>
+
+  {% for item in feed_items %}
+    {% if item|instance_of:'Ticket' %}
+        <div class="ticket">
+            <h2>🎫 Ticket : {{ item.title }}</h2>
+            <p>Par {{ item.user.username }} - {{ item.time_created }}</p>
+            <p>{{ item.description }}</p>
+            {% if item.image %}
+                <img src="{{ item.image.url }}" alt="Image du ticket" style="max-width:200px;">
+            {% endif %}
+
+            {% if item.user == request.user %}
+                <p>
+                    <a href="{% url 'modifier_ticket' item.id %}">✏️ Modifier</a> |
+                    <form method="post" action="{% url 'supprimer_ticket' item.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" onclick="return confirm('Supprimer ce ticket ?')">🗑️ Supprimer</button>
+                    </form>
+                </p>
+            {% endif %}
+        </div>
+
+    {% elif item|instance_of:'Review' %}
+        <div class="review">
+            <h2>📝 Review : {{ item.headline }}</h2>
+            <p>Par {{ item.user.username }} - {{ item.time_created }}</p>
+            <p>Note : {{ item.rating }}/5</p>
+            <p>{{ item.body }}</p>
+            <p><em>About the ticket : {{ item.ticket.title }}</em></p>
+
+            {% if item.user == request.user %}
+                <p>
+                    <a href="{% url 'modifier_review' item.id %}">✏️ Modifier</a> |
+                    <form method="post" action="{% url 'supprimer_review' item.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" onclick="return confirm('Supprimer cette review ?')">🗑️ Supprimer</button>
+                    </form>
+                </p>
+            {% endif %}
+        </div>
+    {% endif %}
+    <hr>
+  {% empty %}
+    <p>Nothing to display for the moment.</p>
+  {% endfor %}
+
+
+
 </div>
