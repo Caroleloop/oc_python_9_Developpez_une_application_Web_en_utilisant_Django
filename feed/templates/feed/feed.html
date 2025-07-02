@@ -28,8 +28,8 @@
 
             {% if item.user == request.user %}
                 <p>
-                    <a href="{% url 'modifier_ticket' item.id %}">✏️ Modifier</a> |
-                    <form method="post" action="{% url 'supprimer_ticket' item.id %}" style="display:inline;">
+                    <a href="{% url 'edit_ticket' item.id %}">✏️ Modifier</a> |
+                    <form method="post" action="{% url 'delete_ticket' item.id %}" style="display:inline;">
                         {% csrf_token %}
                         <button type="submit" onclick="return confirm('Supprimer ce ticket ?')">🗑️ Supprimer</button>
                     </form>

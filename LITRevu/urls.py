@@ -23,5 +23,6 @@ from accounts.views import login_view
 urlpatterns = [
     path("", login_view, name="home"),
     path("accounts/", include("accounts.urls")),
+    path("feed/", include("feed.urls")),
     path("admin/", admin.site.urls),
 ]

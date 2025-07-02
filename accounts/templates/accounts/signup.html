@@ -1,7 +1,8 @@
 {% extends "base.html" %} {# Ce template hérite de base.html pour réutiliser la structure commune du site #}
 
 {% block content %} {# Début du bloc de contenu spécifique à cette page #}
-  <h1>Create an account</h1> {# Titre principal de la page d'inscription #}
+  <h1>LITRevu</h1>
+  <h2>Create an account</h2> {# Titre principal de la page d'inscription #}
 
   <form method="post" aria-label="Registration form"> {# Formulaire HTML utilisant la méthode POST, avec un label ARIA pour l'accessibilité #}
     {% csrf_token %} {# Jeton CSRF pour sécuriser le formulaire contre les attaques CSRF #}

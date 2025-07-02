@@ -66,8 +66,3 @@ def logout_view(request):
 
     # Redirection vers la page d'accueil
     return redirect("home")
-
-
-def feed_view(request):
-    # Affichage de la page principale après connexion
-    return render(request, "feed/feed.html")
