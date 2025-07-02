@@ -33,7 +33,7 @@ def feed_view(request):
 @login_required
 def add_ticket(request):
     # Initialise un formulaire de ticket, vide ou pré-rempli si POST
-    form = TicketForm(request.POST or None)
+    form = TicketForm(request.POST or None, request.FILES or None)
 
     # Si le formulaire est valide, crée et enregistre un ticket
     if form.is_valid():
@@ -56,7 +56,7 @@ def edit_ticket(request, ticket_id):
         return HttpResponseForbidden()
 
     # Initialise le formulaire avec les données existantes du ticket
-    form = TicketForm(request.POST or None, instance=ticket)
+    form = TicketForm(request.POST or None, request.FILES or None, instance=ticket)
 
     # Si le formulaire est valide, enregistre les modifications
     if form.is_valid():
