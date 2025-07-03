@@ -58,7 +58,7 @@ h1 {
 
 /* Couleur du bouton change au survol */
 .auth-column button:hover {
-  background-color: #254a99; /* bleu plus foncé */
+  background-color: #258299; /* bleu plus foncé */
 }
 
 /* Style des messages d'erreur : texte rouge et un peu plus petit */

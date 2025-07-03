@@ -85,6 +85,13 @@ def delete_ticket(request, ticket_id):
     return render(request, "feed/ticket_confirm_delete.html", {"ticket": ticket})
 
 
+@login_required
+def ticket_detail(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    reviews = ticket.review_set.all()  # récupère toutes les critiques associées
+    return render(request, "feed/ticket_detail.html", {"ticket": ticket, "reviews": reviews})
+
+
 # VUES POUR LES REVIEWS
 @login_required
 def add_review(request, ticket_id):
@@ -100,7 +107,7 @@ def add_review(request, ticket_id):
         review.user = request.user
         review.ticket = ticket  # Associe la critique au ticket
         review.save()
-        return redirect("feed")
+        return redirect("ticket_detail", ticket_id=ticket.id)
 
     # Affiche le formulaire de création de critique
     return render(request, "feed/review_form.html", {"form": form, "ticket": ticket})

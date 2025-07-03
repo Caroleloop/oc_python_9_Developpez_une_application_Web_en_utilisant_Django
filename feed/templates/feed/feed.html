@@ -1,4 +1,7 @@
+
 {% load custom_filters %}
+
+
 <!-- Titre principal de la page -->
 <header>
     <h1>LITReview</h1>
@@ -28,11 +31,9 @@
 
             {% if item.user == request.user %}
                 <p>
-                    <a href="{% url 'edit_ticket' item.id %}">✏️ Modify</a> |
-                    <form method="post" action="{% url 'delete_ticket' item.id %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" onclick="return confirm('Delete this ticket?')">🗑️ Delete</button>
-                    </form>
+                    <a class="button" href="{% url 'add_review' item.id %}">Create a review </a>
+                    <a class="button" href="{% url 'edit_ticket' item.id %}">Modify</a> 
+                    <a class="button delete-button" href="{% url 'delete_ticket' item.id %}">Delete</a> 
                 </p>
             {% endif %}
         </div>

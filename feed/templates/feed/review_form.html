@@ -1,3 +1,13 @@
+<h2>Ticket details</h2>
+<div class="ticket-details">
+    <h3>{{ ticket.title }}</h3>
+    <p>{{ ticket.description }}</p>
+    {% if ticket.image %}
+        <img src="{{ ticket.image.url }}" alt="Image du ticket" style="max-width: 300px;">
+    {% endif %}
+</div>
+
+
 <h2>{% if review %}Edit{% else %}Create{% endif %} a review</h2>
 
 <form method="post">
