@@ -1,0 +1,36 @@
+{% load custom_tags %}
+
+{% block content %}
+<h2>My post</h2>
+
+{% if my_posts %}
+    {% for item in my_posts %}
+        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px; border-radius: 8px;">
+            {% if item|instanceof:"Ticket" %}
+                <h3> Ticket : {{ item.title }}</h3>
+                <p>{{ item.description }}</p>
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="Image du ticket" style="max-width: 300px;">
+                {% endif %}
+                <p><em>Created on {{ item.time_created|date:"d/m/Y H:i" }}</em></p>
+
+            {% elif item|instanceof:"Review" %}
+                <h3> Critique : {{ item.headline }}</h3>
+                <p>Note : {{ item.rating }}/5</p>
+                <p>{{ item.body }}</p>
+                <p><em>Created on {{ item.time_created|date:"d/m/Y H:i" }}</em></p>
+
+                <h4> Associated ticket : {{ item.ticket.title }}</h4>
+                <p>{{ item.ticket.description }}</p>
+                {% if item.ticket.image %}
+                    <img src="{{ item.ticket.image.url }}" alt="Image du ticket associé" style="max-width: 300px;">
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p>You haven't published any tickets or reviews yet.</p>
+{% endif %}
+
+<a href="{% url 'feed' %}">Back to news feed</a>
+{% endblock %}

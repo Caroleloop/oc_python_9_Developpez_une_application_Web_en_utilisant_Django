@@ -173,3 +173,17 @@ def add_review_without_ticket(request):
     return render(
         request, "feed/add_review_without_ticket.html", {"ticket_form": ticket_form, "review_form": review_form}
     )
+
+
+@login_required
+def my_posts_view(request):
+    user = request.user
+
+    # Récupérer uniquement les tickets et critiques créés par l'utilisateur connecté
+    tickets = Ticket.objects.filter(user=user)
+    reviews = Review.objects.filter(user=user)
+
+    # Fusionner et trier par date de création décroissante
+    my_posts = sorted(chain(tickets, reviews), key=attrgetter("time_created"), reverse=True)
+
+    return render(request, "feed/my_posts.html", {"my_posts": my_posts})
