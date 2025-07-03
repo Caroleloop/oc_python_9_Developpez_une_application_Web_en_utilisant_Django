@@ -107,7 +107,7 @@ def add_review(request, ticket_id):
         review.user = request.user
         review.ticket = ticket  # Associe la critique au ticket
         review.save()
-        return redirect("ticket_detail", ticket_id=ticket.id)
+        return redirect("feed")
 
     # Affiche le formulaire de création de critique
     return render(request, "feed/review_form.html", {"form": form, "ticket": ticket})
@@ -150,3 +150,26 @@ def delete_review(request, review_id):
 
     # Affiche la page de confirmation
     return render(request, "feed/review_confirm_delete.html", {"review": review})
+
+
+@login_required
+def add_review_without_ticket(request):
+    ticket_form = TicketForm(request.POST or None, request.FILES or None)
+    review_form = ReviewForm(request.POST or None)
+
+    if request.method == "POST":
+        if ticket_form.is_valid() and review_form.is_valid():
+            ticket = ticket_form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket
+            review.save()
+
+            return redirect("feed")
+
+    return render(
+        request, "feed/add_review_without_ticket.html", {"ticket_form": ticket_form, "review_form": review_form}
+    )

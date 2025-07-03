@@ -7,13 +7,19 @@
     <h1>LITReview</h1>
     <nav>
         <a href="#">Abonnements</a>
-        <a href="#">Flux</a>
+        <a href="{% url 'feed' %}">Flux</a>
         <a href="#">Posts</a>
         <!-- Bouton pour se déconnecter -->
         <a href="{% url 'logout' %}">Logout</a>
     </nav>
 </header>
 
+<div class="create-links">
+    <a href="{% url 'add_ticket' %}">Create a ticket</a> 
+    <a href="{% url 'add_review_without_ticket' %}">Create a review</a> 
+    
+
+</div>
 
 <main>
 <!-- Conteneur principal pour la section d'authentification -->
@@ -41,15 +47,23 @@
     {% elif item|instance_of:'Review' %}
         <div class="review">
             <h2>📝 Review : {{ item.headline }}</h2>
-            <p>Par {{ item.user.username }} - {{ item.time_created }}</p>
+            <p>By {{ item.user.username }} - {{ item.time_created }}</p>
             <p>Note : {{ item.rating }}/5</p>
             <p>{{ item.body }}</p>
-            <p><em>About the ticket : {{ item.ticket.title }}</em></p>
+            <div class="ticket-in-review">
+                <h3>🎫 Ticket linked to this review :</h3>
+                <p><strong>Title:</strong> {{ item.ticket.title }}</p>
+                <p><strong>By:</strong> {{ item.ticket.user.username }} - {{ item.ticket.time_created }}</p>
+                <p><strong>Description:</strong> {{ item.ticket.description }}</p>
+                {% if item.ticket.image %}
+                    <img src="{{ item.ticket.image.url }}" alt="Ticket image">
+                {% endif %}
+            </div>
 
             {% if item.user == request.user %}
                 <p>
                     <a href="{% url 'edit_review' item.id %}">✏️ Modify</a> |
-                    <form method="post" action="{% url 'supprimer_review' item.id %}" style="display:inline;">
+                    <form method="post" action="{% url 'delete_review' item.id %}" style="display:inline;">
                         {% csrf_token %}
                         <button type="submit" onclick="return confirm('Delete this review ?')">🗑️ Delete</button>
                     </form>

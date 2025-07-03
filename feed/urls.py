@@ -9,7 +9,9 @@ urlpatterns = [
     path("ticket/add/", views.add_ticket, name="add_ticket"),
     path("ticket/<int:ticket_id>/edit/", views.edit_ticket, name="edit_ticket"),
     path("ticket/<int:ticket_id>/delete/", views.delete_ticket, name="delete_ticket"),
+    path("ticket/<int:ticket_id>/", views.ticket_detail, name="ticket_detail"),
     path("review/<int:ticket_id>/add/", views.add_review, name="add_review"),
     path("review/<int:review_id>/edit/", views.edit_review, name="edit_review"),
     path("review/<int:review_id>/delete/", views.delete_review, name="delete_review"),
+    path("reviews/add/", views.add_review_without_ticket, name="add_review_without_ticket"),
 ]

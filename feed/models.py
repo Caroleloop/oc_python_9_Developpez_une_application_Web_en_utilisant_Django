@@ -25,7 +25,7 @@ class Ticket(models.Model):
 
 class Review(models.Model):
     # Relation avec le ticket auquel la critique est associée, suppression en cascade
-    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name="reviews")
 
     # Note donnée, entière positive entre 0 et 5 inclus, avec choix limités
     rating = models.PositiveSmallIntegerField(choices=[(i, i) for i in range(0, 6)])
