@@ -27,3 +27,15 @@ class CustomAuthenticationForm(AuthenticationForm):
     class Meta:
         # Indique le modèle utilisateur lié à ce formulaire
         model = User
+
+
+class FollowUserForm(forms.Form):
+    username = forms.CharField(label="Nom d'utilisateur à suivre", max_length=150)
+
+    def clean_username(self):
+        username = self.cleaned_data["username"]
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise forms.ValidationError("Cet utilisateur n'existe pas.")
+        return user

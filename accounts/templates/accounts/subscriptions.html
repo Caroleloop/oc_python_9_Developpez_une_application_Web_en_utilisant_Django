@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Abonnements</h2>
+
+<form method="get" action="{% url 'subscriptions' %}">
+    <input type="text" name="q" placeholder="Rechercher un utilisateur" value="{{ query|default:'' }}">
+    <button type="submit">Search</button>
+</form>
+
+{% if query %}
+    <h3>Results for "{{ query }}"</h3>
+    {% if search_results %}
+        <ul>
+            {% for user in search_results %}
+                <li>
+                    {{ user.username }} - {{ user.get_full_name }}
+                    {% if user in following %}
+                        <form method="post" action="{% url 'subscriptions' %}" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="unfollow">
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            <button type="submit">Unsubscribe</button>
+                        </form>
+                    {% else %}
+                        <form method="post" action="{% url 'subscriptions' %}" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="follow">
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            <button type="submit">Follow</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No users found.</p>
+    {% endif %}
+{% endif %}
+
+<hr>
+
+<h3>Users I follow</h3>
+{% if following %}
+    <ul>
+        {% for user in following %}
+            <li>{{ user.username }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You're not following anyone.</p>
+{% endif %}
+
+<hr>
+
+<h3>Users who follow me</h3>
+{% if followers %}
+    <ul>
+        {% for user in followers %}
+            <li>{{ user.username }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No user is following you.</p>
+{% endif %}
+
+{% endblock %}

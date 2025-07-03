@@ -10,4 +10,5 @@ urlpatterns = [
     path("signup/", views.signup_view, name="signup"),
     # Route pour la déconnexion, associe la vue logout_view et nomme cette URL "logout"
     path("logout/", views.logout_view, name="logout"),
+    path("subscriptions/", views.subscriptions_view, name="subscriptions"),
 ]
