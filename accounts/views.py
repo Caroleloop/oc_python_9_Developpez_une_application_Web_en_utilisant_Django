@@ -12,6 +12,9 @@ User = get_user_model()
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect("feed")
+
     # Initialisation du formulaire de connexion vide
     login_form = CustomAuthenticationForm()
 
