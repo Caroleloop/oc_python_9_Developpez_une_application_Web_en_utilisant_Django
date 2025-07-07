@@ -1,6 +1,7 @@
 {% extends 'base_feed.html' %}
 {% block content %}
-<h2>Abonnements</h2>
+<main>
+<h1>Abonnements</h1>
 
 <form method="get" action="{% url 'subscriptions' %}">
     <input type="text" name="q" placeholder="Rechercher un utilisateur" value="{{ query|default:'' }}">
@@ -8,22 +9,22 @@
 </form>
 
 {% if query %}
-    <h3>Results for "{{ query }}"</h3>
+    <h2>Results for "{{ query }}"</h2>
     {% if search_results %}
         <ul>
             {% for user in search_results %}
-                <li>
-                    {{ user.username }} 
+                <div class="ticket">
+                    <strong>{{ user.username }}</strong>
                      {% if user in following %}
-                        <span >- already followed</span>
+                        <p >- already followed</p>
                     {% else %}
-                        <form method="post" action="{% url 'subscriptions' %}" style="display:inline;">
+                        <form method="post" action="{% url 'subscriptions' %}">
                             {% csrf_token %}
                             <input type="hidden" name="username" value="{{ user.username }}">
                             <button type="submit">Follow</button>
                         </form>
                     {% endif %}
-                </li>
+                </div>
             {% endfor %}
         </ul>
     {% else %}
@@ -33,21 +34,19 @@
 
 <hr>
 
-<h3>Users I follow</h3>
+<h2>Users I follow</h2>
 {% if following %}
-    <ul>
-        {% for user in following %}
-            <li>{{ user.username }}
-               <form method="post" action="{% url 'subscriptions' %}" style="display:inline;">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="unfollow">
-                    <input type="hidden" name="user_id" value="{{ user.id }}">
-                    <button type="submit">Unfollow</button>
-                </form>
-            </li>
-                  
-        {% endfor %}
-    </ul>
+    {% for user in following %}
+        <div class="ticket follow-item">
+            <strong>{{ user.username }}</strong>
+            <form method="post" action="{% url 'subscriptions' %}">
+                {% csrf_token %}
+                <input type="hidden" name="username" value="{{ user.username }}">
+                <button class="delete-button" type="submit" >Unfollow</button>
+            </form>
+        </div>        
+    {% endfor %}
+    
 {% else %}
     <p>You're not following anyone.</p>
 {% endif %}
@@ -56,13 +55,13 @@
 
 <h3>Users who follow me</h3>
 {% if followers %}
-    <ul>
-        {% for user in followers %}
-            <li>{{ user.username }}</li>
-        {% endfor %}
-    </ul>
+    {% for user in followers %}
+        <div class="ticket">
+            <strong>{{ user.username }}</strong>
+        </div>
+    {% endfor %}
 {% else %}
     <p>No user is following you.</p>
 {% endif %}
-
+</main>
 {% endblock %}

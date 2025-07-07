@@ -1,108 +1,564 @@
-/* Centre le texte des éléments h1 */
-h1 {
-  text-align: center;
-}
-
-/* Conteneur principal d'authentification en flexbox avec un espacement entre les colonnes */
-.auth-container {
-  display: flex;
-  gap: 2rem; /* espace entre les colonnes */
-  justify-content: space-between; /* espace maximal entre les éléments */
-  margin-top: 2rem; /* marge au-dessus du conteneur */
-}
-
-/* Style des colonnes d'authentification */
-.auth-column {
-  flex: 1; /* chaque colonne prend une part égale de l'espace disponible */
-  background: #fff; /* fond blanc */
-  padding: 2rem; /* espace intérieur */
-  border-radius: 8px; /* bords arrondis */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* légère ombre portée */
-}
-
-/* Titre de chaque colonne centré avec une marge en dessous */
-.auth-column h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-/* Espace entre chaque div (groupes de champs) dans le formulaire */
-.auth-column form div {
-  margin-bottom: 1rem;
-}
-
-/* Style des étiquettes des champs : texte en gras */
-.auth-column label {
-  font-weight: bold;
-}
-
-/* Style des champs de saisie : pleine largeur, padding et bord arrondi */
-.auth-column input {
-  width: 100%; /* prend toute la largeur du parent */
-  padding: 0.5rem; /* espace intérieur */
-  border-radius: 4px; /* bords arrondis */
-  border: 1px solid #ccc; /* bord gris clair */
-}
-
-/* Style des boutons : pleine largeur, couleur de fond, texte blanc, arrondi */
-.auth-column button {
-  width: 100%;
-  padding: 0.8rem;
-  background-color: #3366cc; /* bleu */
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer; /* curseur pointeur au survol */
-}
-
-/* Couleur du bouton change au survol */
-.auth-column button:hover {
-  background-color: #258299; /* bleu plus foncé */
-}
-
-/* Style des messages d'erreur : texte rouge et un peu plus petit */
-.error {
-  color: red;
-  font-size: 0.9rem;
-}
-
-
-/* ---- Bandeau LITReview ---- */
-
-.site-header {
-    background-color: #4A90E2;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    font-family: sans-serif;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-}
-
-.site-header h1 {
+/* Général */
+body {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background-color: #f9f9f9;
+    color: #2c2c2c;
     margin: 0;
-    font-size: 2em;
+    padding: 0;
+    line-height: 1.6;
 }
 
-.site-header nav {
+main {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* Titres */
+h1, h2, h3 {
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 0.5em;
+}
+
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-top: 1.5em;
+}
+
+h3 {
+    font-size: 1.4rem;
+    color: #444;
+}
+
+/* Liens & Navigation */
+a {
+    color: #3b5998;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+nav {
+    background-color: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 1rem;
+}
+
+nav a {
+    color: #444;
+    transition: color 0.2s ease-in-out;
+}
+
+nav a:hover {
+    color: #000;
+}
+
+/* Boutons */
+button {
+    background-color: #1a1a1a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #333;
+}
+
+button.delete-button {
+    background-color: #b30000;
+}
+
+button.delete-button:hover {
+    background-color: #800000;
+
+}
+button.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #444; /* comme tes liens boutons */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    min-width: 120px; /* taille fixe minimale, ajuste selon besoin */
+    text-align: center;
+}
+
+button.button:hover {
+    background-color: #000;
+}
+
+
+.actions-right {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
     margin-top: 10px;
 }
 
-.site-header nav a {
-    color: white;
-    margin: 0 10px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
+a.button {
+    display: inline-block;
+    background-color: #444;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 4px;
+    margin: 5px 0;
+    transition: background-color 0.3s;
 }
 
-.site-header nav a:hover {
-    color: #FFD700; /* jaune doré au survol */
+a.button:hover {
+    background-color: #000;
 }
 
+.auth-container {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.auth-column {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  text-align: center;
+  width: 300px;
+}
+
+.auth-column h2 {
+  margin-bottom: 20px;
+}
+
+.auth-column button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #2c3e50;
+  color: white;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.auth-column button:hover {
+  background-color: #1a252f;
+}
+
+/* Formulaires */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+form small {
+    display: block;
+    color: #666;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.error {
+    color: red;
+    font-size: 0.9rem;
+}
+
+/* Layout d'accueil */
+.auth-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.auth-column {
+    flex: 1;
+    min-width: 250px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+
+
+/* Flux et publications */
+.ticket, .review {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+img {
+    width: 300px;    
+    height: auto;    
+    border-radius: 4px;
+    margin-top: 10px;
+    object-fit: contain;
+}
+
+/* Ticket dans une review */
+.ticket-in-review {
+    background-color: #f3f3f3;
+    padding: 15px;
+    margin-top: 15px;
+    border-left: 4px solid #ccc;
+}
+
+/* Sections & séparation */
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 30px 0;
+}
+
+.create-links {
+    display: flex;
+    justify-content: center; 
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .auth-container {
+        flex-direction: column;
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .create-links {
+        flex-direction: column;
+    }
+}
+
+
+.follow-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}/* Général */
 body {
-    padding-top: 100px; /* Ajuste selon la hauteur réelle de ton bandeau */
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background-color: #f9f9f9;
+    color: #2c2c2c;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+main {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* Titres */
+h1, h2, h3 {
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 0.5em;
+}
+
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-top: 1.5em;
+}
+
+h3 {
+    font-size: 1.4rem;
+    color: #444;
+}
+
+/* Liens & Navigation */
+a {
+    color: #3b5998;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+nav {
+    background-color: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 1rem;
+}
+
+nav a {
+    color: #444;
+    transition: color 0.2s ease-in-out;
+}
+
+nav a:hover {
+    color: #000;
+}
+
+/* Boutons */
+button {
+    background-color: #1a1a1a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #333;
+}
+
+button.delete-button {
+    background-color: #b30000;
+}
+
+button.delete-button:hover {
+    background-color: #800000;
+}
+
+/* Boutons avec classe .button (pour uniformiser les boutons Modify et autres) */
+button.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #444; /* couleur boutons */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    min-width: 120px;  /* largeur fixe minimale */
+    height: 40px;      /* hauteur fixe */
+    text-align: center;
+    line-height: 1;
+    white-space: nowrap; /* empêcher retour à la ligne */
+    margin: 0; /* reset margin */
+}
+
+button.button:hover {
+    background-color: #000;
+}
+
+/* Formulaire Delete inline */
+.actions-right form {
+    margin: 0;
+    display: inline-block;
+}
+
+/* Container des boutons d'action */
+.actions-right {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+    align-items: center; /* alignement vertical */
+}
+
+/* Boutons liens style bouton */
+a.button {
+    display: inline-block;
+    background-color: #444;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 4px;
+    margin: 5px 0;
+    transition: background-color 0.3s;
+}
+
+a.button:hover {
+    background-color: #000;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.auth-column {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  text-align: center;
+  width: 300px;
+}
+
+.auth-column h2 {
+  margin-bottom: 20px;
+}
+
+.auth-column button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #2c3e50;
+  color: white;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.auth-column button:hover {
+  background-color: #1a252f;
+}
+
+/* Formulaires */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+form small {
+    display: block;
+    color: #666;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.error {
+    color: red;
+    font-size: 0.9rem;
+}
+
+/* Layout d'accueil */
+.auth-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.auth-column {
+    flex: 1;
+    min-width: 250px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+
+/* Flux et publications */
+.ticket, .review {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+img {
+    max-width: 100%;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+/* Ticket dans une review */
+.ticket-in-review {
+    background-color: #f3f3f3;
+    padding: 15px;
+    margin-top: 15px;
+    border-left: 4px solid #ccc;
+}
+
+/* Sections & séparation */
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 30px 0;
+}
+
+.create-links {
+    display: flex;
+    justify-content: center; 
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .auth-container {
+        flex-direction: column;
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .create-links {
+        flex-direction: column;
+    }
+}
+
+.follow-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
