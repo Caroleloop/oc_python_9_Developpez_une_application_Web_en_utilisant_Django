@@ -1,3 +1,5 @@
+{% extends "base_feed.html" %}
+{% block content %}
 <h2>Ticket details</h2>
 <div class="ticket-details">
     <h3>{{ ticket.title }}</h3>
@@ -17,3 +19,4 @@
 </form>
 
 <a href="{% url 'feed' %}">Cancel</a>
+{% endblock %}

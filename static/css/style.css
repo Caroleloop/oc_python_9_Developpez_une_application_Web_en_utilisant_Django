@@ -66,3 +66,43 @@ h1 {
   color: red;
   font-size: 0.9rem;
 }
+
+
+/* ---- Bandeau LITReview ---- */
+
+.site-header {
+    background-color: #4A90E2;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-family: sans-serif;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.site-header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+.site-header nav {
+    margin-top: 10px;
+}
+
+.site-header nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.site-header nav a:hover {
+    color: #FFD700; /* jaune doré au survol */
+}
+
+body {
+    padding-top: 100px; /* Ajuste selon la hauteur réelle de ton bandeau */
+}

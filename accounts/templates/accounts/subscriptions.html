@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_feed.html' %}
 {% block content %}
 <h2>Abonnements</h2>
 
@@ -24,8 +24,7 @@
                     {% else %}
                         <form method="post" action="{% url 'subscriptions' %}" style="display:inline;">
                             {% csrf_token %}
-                            <input type="hidden" name="action" value="follow">
-                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            <input type="hidden" name="username" value="{{ user.username }}">
                             <button type="submit">Follow</button>
                         </form>
                     {% endif %}

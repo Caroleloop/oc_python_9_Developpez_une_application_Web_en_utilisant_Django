@@ -1,0 +1,19 @@
+{% load static %} 
+{% load custom_filters %}
+
+
+<!-- Titre principal de la page -->
+<header>
+    <h1>LITReview</h1>
+    <nav>
+        <a href="{% url 'subscriptions' %}">Abonnements</a>
+        <a href="{% url 'feed' %}">Flux</a>
+        <a href="{% url 'my_posts' %}">Posts</a>
+        <!-- Bouton pour se déconnecter -->
+        <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+</header>
+
+<!-- Zone où le contenu spécifique de chaque page s'affiche -->
+{% block content %}
+{% endblock %}
