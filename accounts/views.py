@@ -1,11 +1,8 @@
-from django.contrib.auth import login
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
-from django.shortcuts import render, redirect
-from django.contrib.auth import logout
-from .models import UserFollows
-from django.contrib.auth import get_user_model
+from django.contrib.auth import login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
-from .forms import FollowUserForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, FollowUserForm
+from .models import UserFollows
 
 
 User = get_user_model()
@@ -84,12 +81,18 @@ def subscriptions_view(request):
 
     # Gestion du formulaire de suivi
     if request.method == "POST":
-        form = FollowUserForm(request.POST)
-        if form.is_valid():
-            user_to_follow = form.cleaned_data["username"]
-            if user_to_follow != current_user:
-                UserFollows.objects.get_or_create(user=current_user, followed_user=user_to_follow)
+        if request.POST.get("action") == "unfollow":
+            user_id = request.POST.get("user_id")
+            user_to_unfollow = get_object_or_404(User, id=user_id)
+            UserFollows.objects.filter(user=current_user, followed_user=user_to_unfollow).delete()
             return redirect("subscriptions")
+        else:
+            form = FollowUserForm(request.POST)
+            if form.is_valid():
+                user_to_follow = form.cleaned_data["username"]
+                if user_to_follow != current_user:
+                    UserFollows.objects.get_or_create(user=current_user, followed_user=user_to_follow)
+                return redirect("subscriptions")
     else:
         form = FollowUserForm()
 
