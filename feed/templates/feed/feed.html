@@ -22,7 +22,9 @@
                 <img src="{{ item.image.url }}" alt="Image du ticket" >
             {% endif %} 
             <div class="actions-right">
-                <button class="button" onclick="location.href='{% url 'add_review' item.id %}'">Create a review</button>
+                {% if not item.review_set.exists %}
+                    <button class="button" onclick="location.href='{% url 'add_review' item.id %}'">Create a review</button>
+                {% endif %}
                 {% if item.user == request.user %}
                     <button class="button" onclick="location.href='{% url 'edit_ticket' item.id %}'">Modify</button>
                     <button class="button delete-button" onclick="location.href='{% url 'delete_ticket' item.id %}'">🗑️ Delete</button>

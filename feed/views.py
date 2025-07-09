@@ -88,7 +88,7 @@ def delete_ticket(request, ticket_id):
 @login_required
 def ticket_detail(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
-    reviews = ticket.review_set.all()  # récupère toutes les critiques associées
+    reviews = ticket.reviews.all()  # récupère toutes les critiques associées
     return render(request, "feed/ticket_detail.html", {"ticket": ticket, "reviews": reviews})
 
 
@@ -97,6 +97,16 @@ def ticket_detail(request, ticket_id):
 def add_review(request, ticket_id):
     # Récupère le ticket associé à la critique
     ticket = get_object_or_404(Ticket, id=ticket_id)
+
+    # Vérifie s'il existe déjà une critique pour ce ticket
+    existing_review = Review.objects.filter(ticket=ticket).first()
+    if existing_review:
+        # Tu peux retourner une erreur, rediriger ou afficher un message
+        # Par exemple, ici on redirige vers le détail du ticket avec un message d'erreur
+        from django.contrib import messages
+
+        messages.error(request, "Ce ticket a déjà une critique, vous ne pouvez pas en créer une autre.")
+        return redirect("ticket_detail", ticket_id=ticket.id)
 
     # Initialise un formulaire de critique
     form = ReviewForm(request.POST or None)

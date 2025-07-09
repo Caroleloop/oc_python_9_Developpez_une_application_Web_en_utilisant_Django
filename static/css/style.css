@@ -5,8 +5,10 @@ body {
     color: #2c2c2c;
     margin: 0;
     padding: 0;
-    line-height: 1.6;
+    line-height: 1.6;    
+    font-size: 17px;
 }
+
 
 main {
     max-width: 900px;
@@ -34,6 +36,10 @@ h2 {
 h3 {
     font-size: 1.4rem;
     color: #444;
+}
+
+p {
+    text-align: justify;
 }
 
 /* Liens & Navigation */
@@ -120,40 +126,43 @@ a.button:hover {
 }
 
 .auth-container {
-  display: flex;
-  justify-content: center;
-  gap: 60px;
-  margin-top: 40px;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 40px;
+    flex-wrap: wrap;
 }
 
 .auth-column {
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  text-align: center;
-  width: 300px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+    flex: 1;
+    border: 1px solid #ddd;
 }
 
 .auth-column h2 {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .auth-column button {
-  padding: 10px 20px;
-  border: none;
-  background-color: #2c3e50;
-  color: white;
-  font-size: 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+    padding: 10px 20px;
+    border: none;
+    background-color: #2c3e50;
+    color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .auth-column button:hover {
-  background-color: #1a252f;
+    background-color: #1a252f;
 }
+
 
 /* Formulaires */
 form input[type="text"],
@@ -161,6 +170,7 @@ form input[type="email"],
 form input[type="password"],
 form textarea,
 form select {
+    box-sizing: border-box;
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -191,15 +201,7 @@ form small {
     margin-top: 30px;
 }
 
-.auth-column {
-    flex: 1;
-    min-width: 250px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    box-shadow: 0 0 5px rgba(0,0,0,0.05);
-}
+
 
 
 /* Flux et publications */
@@ -210,6 +212,8 @@ form small {
     border: 1px solid #ccc;
     margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+    max-width: 100%;
 }
 
 img {
@@ -243,22 +247,6 @@ hr {
     margin-bottom: 30px;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .auth-container {
-        flex-direction: column;
-    }
-
-    nav {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .create-links {
-        flex-direction: column;
-    }
-}
-
 
 .follow-item {
     display: flex;
@@ -271,4 +259,35 @@ hr {
 
 .follow-item form {
     margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .auth-container {
+        flex-direction: column;
+        padding: 0 10px;
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .create-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    img {
+        max-width: 150px;
+    }
+    .review, .ticket {
+        padding: 15px 10px; 
+        margin: 10px;       
+    }
+    .button, .auth-column button, button.button {
+        padding: 8px 14px;    /* moins haut et moins large */
+        font-size: 0.9rem;    /* texte légèrement plus petit */
+        min-width: 100px;     /* réduit la largeur minimale */
+        height: 36px;         /* réduit la hauteur */
+    }
 }

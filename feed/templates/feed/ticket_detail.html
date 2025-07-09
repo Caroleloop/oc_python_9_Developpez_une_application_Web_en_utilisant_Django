@@ -1,0 +1,30 @@
+{% extends "base_feed.html" %}
+
+{% block content %}
+<main>
+<h1> A review already exists for this ticket.</h1>
+<div class="ticket">
+    <h2>🎫 Ticket : {{ ticket.title }}</h2>
+    <p>Par {{ ticket.user.username }} - {{ ticket.time_created }}</p>
+    <p>{{ ticket.description }}</p>
+    {% if ticket.image %}
+        <img src="{{ ticket.image.url }}" alt="Image du ticket" >
+    {% endif %} 
+</div> 
+
+{% for review in reviews %}
+    <div class="review">
+        <h2>📝 Review : {{ review.headline }}</h2>
+        <p>By {{ review.user.username }} - {{ review.time_created }}</p>
+            <p>Note : {{ review.rating }}/5</p>
+            <p>{{ review.body }}</p>
+    </div>
+    
+{% empty %}
+  <p>No reviews yet.</p>
+{% endfor %}
+
+<hr>
+<a href="{% url 'feed' %}" class="button">Back to news feed</a>
+</main>
+{% endblock %}

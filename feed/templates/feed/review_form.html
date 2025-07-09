@@ -13,13 +13,16 @@
 
 <h2>{% if review %}Edit{% else %}Create{% endif %} a review</h2>
 
-<form method="post" class="review">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div class="actions-right">
-        <button type="submit" class="button">Validate</button>
-        <a href="{% url 'feed' %}" class="button ">Cancel</a>
-    </div>
-</form>
+{% if ticket.review_set.exists %}
+    <p>Une critique existe déjà pour ce ticket, vous ne pouvez pas en créer une autre.</p>
+{% else %}
+    <form method="post" class="review">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="actions-right">
+            <button type="submit" class="button">Validate</button>
+            <a href="{% url 'feed' %}" class="button ">Cancel</a>
+        </div>
+    </form>
 </main>
 {% endblock %}
