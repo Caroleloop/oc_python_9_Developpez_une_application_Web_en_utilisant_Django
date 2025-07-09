@@ -50,7 +50,8 @@
             </div>
             <form method="post" action="{% url 'subscriptions' %}">
                 {% csrf_token %}
-                <input type="hidden" name="username" value="{{ user.username }}">
+                <input type="hidden" name="action" value="unfollow">
+                <input type="hidden" name="user_id" value="{{ user.id }}">
                 <button class="button delete-button" type="submit" >Unfollow</button>
             </form>
         </div>        
