@@ -5,7 +5,9 @@
 
 <form method="get" action="{% url 'subscriptions' %}">
     <input type="text" name="q" placeholder="Rechercher un utilisateur" value="{{ query|default:'' }}">
-    <button type="submit">Search</button>
+    <div class="actions-right">
+        <button type="submit" class="button">Search</button>
+    </div>
 </form>
 
 {% if query %}
@@ -13,15 +15,20 @@
     {% if search_results %}
         <ul>
             {% for user in search_results %}
-                <div class="ticket">
-                    <strong>{{ user.username }}</strong>
-                     {% if user in following %}
-                        <p >- already followed</p>
-                    {% else %}
+                <div class="ticket follow-item">
+                    <div class="user-name">
+                        <strong>{{ user.username }}</strong>
+                        {% if user in following %}
+                            <p >- already followed</p>
+                    </div>
+                    {% else %}   
+                        </div>             
                         <form method="post" action="{% url 'subscriptions' %}">
                             {% csrf_token %}
                             <input type="hidden" name="username" value="{{ user.username }}">
-                            <button type="submit">Follow</button>
+                            <div class="actions-right">
+                                <button type="submit" class="button">Follow</button>
+                            </div>
                         </form>
                     {% endif %}
                 </div>
@@ -38,11 +45,13 @@
 {% if following %}
     {% for user in following %}
         <div class="ticket follow-item">
-            <strong>{{ user.username }}</strong>
+            <div class="user-name">
+                <strong>{{ user.username }}</strong>
+            </div>
             <form method="post" action="{% url 'subscriptions' %}">
                 {% csrf_token %}
                 <input type="hidden" name="username" value="{{ user.username }}">
-                <button class="delete-button" type="submit" >Unfollow</button>
+                <button class="button delete-button" type="submit" >Unfollow</button>
             </form>
         </div>        
     {% endfor %}

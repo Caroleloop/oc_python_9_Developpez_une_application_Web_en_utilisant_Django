@@ -1,19 +1,23 @@
 {% extends "base_feed.html" %}
 {% block content %}
-
-{% block content %}
-<h2>Ajouter une critique sans ticket</h2>
+<main>
+<h1>Add a review without a ticket</h1>
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <h3>Créer un ticket</h3>
-    {{ ticket_form.as_p }}
+    <div class="ticket">
+        <h2>Create a ticket</h2>
+        {{ ticket_form.as_p }}
+    </div>
 
-    <h3>Ajouter une critique</h3>
-    {{ review_form.as_p }}
-
-    <button type="submit">Publier</button>
+    <div class="review">
+        <h2>Add a review</h2>
+        {{ review_form.as_p }}
+    </div>
+    <div class="actions-right">
+        <button type="submit" class="button" >Publish </button>
+        <a href="{% url 'feed' %}" class="button">Back to feed</a>
+    </div>
 </form>
-
-<a href="{% url 'feed' %}">Retour au fil</a>
+</main>
 {% endblock %}

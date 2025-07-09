@@ -1,12 +1,15 @@
 {% extends "base_feed.html" %}
 {% block content %}
-<h2>{% if ticket %}Edit{% else %}Create{% endif %} a ticket</h2>
+<main>
+<h1>{% if ticket %}Edit{% else %}Create{% endif %} a ticket</h1>
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" class="ticket">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Validate</button>
+    <div class="actions-right">
+        <button type="submit" class="button">Validate</button>
+        <a href="{% url 'feed' %}" class="button">Cancel</a>
+    </div>
 </form>
-
-<a href="{% url 'feed' %}">Cancel</a>
+</main>
 {% endblock %}

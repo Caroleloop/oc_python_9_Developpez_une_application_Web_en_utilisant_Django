@@ -17,7 +17,7 @@
                 <p><em>Created on {{ item.time_created|date:"d/m/Y H:i" }}</em></p>
                 <div class="actions-right">            
                     <button class="button" onclick="location.href='{% url 'edit_ticket' item.id %}'">Modify</button>
-                    <button class="delete-button" onclick="location.href='{% url 'delete_ticket' item.id %}'">Delete</button>
+                    <button class="button delete-button" onclick="location.href='{% url 'delete_ticket' item.id %}'">🗑️ Delete</button>
                 </div>
             </div>
         {% endif %}
@@ -39,7 +39,7 @@
                     <button class="button" onclick="location.href='{% url 'edit_review' item.id %}'">Modify</button>
                     <form method="post" action="{% url 'delete_review' item.id %}">
                         {% csrf_token %}
-                        <button type="submit" class="delete-button" onclick="return confirm('Delete this review ?')">🗑️ Delete</button>
+                        <button type="submit" class="button delete-button" onclick="return confirm('Delete this review ?')">🗑️ Delete</button>
                     </form>
                 </div>
             </div>  

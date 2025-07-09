@@ -25,7 +25,7 @@
                 <button class="button" onclick="location.href='{% url 'add_review' item.id %}'">Create a review</button>
                 {% if item.user == request.user %}
                     <button class="button" onclick="location.href='{% url 'edit_ticket' item.id %}'">Modify</button>
-                    <button class="delete-button" onclick="location.href='{% url 'delete_ticket' item.id %}'">Delete</button>
+                    <button class="button delete-button" onclick="location.href='{% url 'delete_ticket' item.id %}'">🗑️ Delete</button>
                 {% endif %}
             </div>
         </div>
@@ -45,24 +45,20 @@
                     <img src="{{ item.ticket.image.url }}" alt="Ticket image">
                 {% endif %}
             </div>
-
-            {% if item.user == request.user %}
-                <div class="actions-right">
+            
+            <div class="actions-right">
+                {% if item.user == request.user %}
                     <button class="button" onclick="location.href='{% url 'edit_review' item.id %}'">Modify</button>
-                    <form method="post" action="{% url 'delete_review' item.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="delete-button" onclick="return confirm('Delete this review ?')">🗑️ Delete</button>
-                    </form>
-                </div>
-            {% endif %}
+                    <button class="button delete-button" onclick="location.href='{% url 'delete_review' item.id %}'">🗑️ Delete</button>
+                {% endif %}
+            </div>
+            
         </div>
     {% endif %}
     <hr>
   {% empty %}
     <p>Nothing to display for the moment.</p>
   {% endfor %}
-
-
 
 </div>
 <main>

@@ -1,22 +1,25 @@
 {% extends "base_feed.html" %}
 {% block content %}
-<h2>Ticket details</h2>
-<div class="ticket-details">
+<main>
+<h1>Ticket details</h1>
+<div cclass="ticket">
     <h3>{{ ticket.title }}</h3>
     <p>{{ ticket.description }}</p>
     {% if ticket.image %}
-        <img src="{{ ticket.image.url }}" alt="Image du ticket" style="max-width: 300px;">
+        <img src="{{ ticket.image.url }}" alt="Image du ticket" >
     {% endif %}
 </div>
 
 
 <h2>{% if review %}Edit{% else %}Create{% endif %} a review</h2>
 
-<form method="post">
+<form method="post" class="review">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Validate</button>
+    <div class="actions-right">
+        <button type="submit" class="button">Validate</button>
+        <a href="{% url 'feed' %}" class="button ">Cancel</a>
+    </div>
 </form>
-
-<a href="{% url 'feed' %}">Cancel</a>
+</main>
 {% endblock %}
