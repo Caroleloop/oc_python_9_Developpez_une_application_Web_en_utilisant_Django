@@ -1,23 +1,33 @@
 {% extends "base_feed.html" %}
+{# Ce template hérite de base_feed.html, il insère son contenu dans le bloc 'content' #}
+
 {% block content %}
 <main>
-<h1>Add a review without a ticket</h1>
+    <h1>Add a review without a ticket</h1>
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="ticket">
-        <h2>Create a ticket</h2>
-        {{ ticket_form.as_p }}
-    </div>
+    {# Formulaire POST avec support des fichiers (ex: images) #}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} {# Protection contre les attaques CSRF #}
 
-    <div class="review">
-        <h2>Add a review</h2>
-        {{ review_form.as_p }}
-    </div>
-    <div class="actions-right">
-        <button type="submit" class="button" >Publish </button>
-        <a href="{% url 'feed' %}" class="button">Back to feed</a>
-    </div>
-</form>
+        <div class="ticket">
+            <h2>Create a ticket</h2>
+            {# Affiche le formulaire du ticket, formaté avec des <p> pour chaque champ #}
+            {{ ticket_form.as_p }}
+        </div>
+
+        <div class="review">
+            <h2>Add a review</h2>
+            {# Affiche le formulaire de la review, même formatage #}
+            {{ review_form.as_p }}
+        </div>
+
+        <div class="actions-right">
+            {# Bouton pour soumettre le formulaire #}
+            <button type="submit" class="button">Send</button>
+
+            {# Lien pour retourner au fil d'actualité sans soumettre le formulaire #}
+            <a href="{% url 'feed' %}" class="button">Back to feed</a>
+        </div>
+    </form>
 </main>
 {% endblock %}

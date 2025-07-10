@@ -1,78 +1,81 @@
-/* Général */
+/* Général : styles de base pour tout le corps de la page */
 body {
-    font-family: 'Segoe UI', Roboto, sans-serif;
-    background-color: #f9f9f9;
-    color: #2c2c2c;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;    
-    font-size: 17px;
+    font-family: 'Segoe UI', Roboto, sans-serif; /* Police principale */
+    background-color: #f9f9f9; /* Fond clair */
+    color: #2c2c2c; /* Couleur du texte */
+    margin: 0; /* Pas de marge par défaut */
+    padding: 0; /* Pas de padding */
+    line-height: 1.6; /* Hauteur de ligne confortable */
+    font-size: 17px; /* Taille de police par défaut */
 }
 
-
+/* Conteneur principal de la page (zone centrale) */
 main {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
+    max-width: 900px; /* Largeur maximale */
+    margin: 40px auto; /* Centré horizontalement avec marge verticale */
+    padding: 20px; /* Espacement interne */
 }
 
-/* Titres */
+/* Titres h1, h2, h3 : styles communs */
 h1, h2, h3 {
-    font-weight: 500;
-    color: #1a1a1a;
-    margin-bottom: 0.5em;
+    font-weight: 500; /* Poids moyen */
+    color: #1a1a1a; /* Couleur sombre */
+    margin-bottom: 0.5em; /* Espace sous le titre */
 }
 
+/* Styles spécifiques aux titres */
 h1 {
-    font-size: 2.5rem;
-    text-align: center;
+    font-size: 2.5rem; /* Très grand titre */
+    text-align: center; /* Centré */
 }
 
 h2 {
-    font-size: 1.8rem;
-    margin-top: 1.5em;
+    font-size: 1.8rem; /* Taille intermédiaire */
+    margin-top: 1.5em; /* Espace au-dessus */
 }
 
 h3 {
-    font-size: 1.4rem;
-    color: #444;
+    font-size: 1.4rem; /* Plus petit */
+    color: #444; /* Couleur grise foncée */
 }
 
+/* Paragraphe avec texte justifié */
 p {
     text-align: justify;
 }
 
-/* Liens & Navigation */
+/* Liens et navigation */
 a {
-    color: #3b5998;
-    text-decoration: none;
-    font-weight: 500;
+    color: #3b5998; /* Bleu Facebook */
+    text-decoration: none; /* Pas de soulignement par défaut */
+    font-weight: 500; /* Texte semi-gras */
 }
 
 a:hover {
-    text-decoration: underline;
+    text-decoration: underline; /* Souligné au survol */
 }
 
+/* Barre de navigation principale */
 nav {
-    background-color: #fff;
-    padding: 10px 20px;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    font-size: 1rem;
+    background-color: #fff; /* Fond blanc */
+    padding: 10px 20px; /* Padding interne */
+    border-bottom: 1px solid #ddd; /* Ligne de séparation en bas */
+    display: flex; /* Flexbox pour aligner les éléments */
+    justify-content: center; /* Centré horizontalement */
+    gap: 20px; /* Espacement entre liens */
+    font-size: 1rem; /* Taille de texte */
 }
 
 nav a {
-    color: #444;
-    transition: color 0.2s ease-in-out;
+    color: #444; /* Gris moyen */
+    transition: color 0.2s ease-in-out; /* Transition douce au survol */
 }
 
 nav a:hover {
-    color: #000;
+    color: #000; /* Noir au survol */
 }
 
-/* Boutons */
+/* Boutons généraux */
 .button {
     display: inline-flex;
     align-items: center;
@@ -80,63 +83,66 @@ nav a:hover {
     box-sizing: border-box;
     padding: 10px 20px;
     font-size: 1rem;
-    background-color: #444;
-    color: #fff;
+    background-color: #444; /* Fond gris foncé */
+    color: #fff; /* Texte blanc */
     border: none;
-    border-radius: 4px;
+    border-radius: 4px; /* Bords arrondis */
     cursor: pointer;
-    transition: background-color 0.3s;
-    min-width: 120px;
-    height: 40px;
+    transition: background-color 0.3s; /* Transition douce */
+    min-width: 120px; /* Largeur minimale */
+    height: 40px; /* Hauteur fixe */
     text-align: center;
     line-height: 1;
-    white-space: nowrap;
+    white-space: nowrap; /* Pas de retour à la ligne */
     margin: 0;
-    text-decoration: none;
-}
-.button:hover {
-    background-color: #333;
+    text-decoration: none; /* Pas de soulignement */
 }
 
+.button:hover {
+    background-color: #333; /* Fond un peu plus foncé au survol */
+}
+
+/* Bouton rouge pour suppression */
 button.delete-button {
-    background-color: #b30000;
+    background-color: #b30000; /* Rouge vif */
 }
 
 button.delete-button:hover {
-    background-color: #800000;
-
+    background-color: #800000; /* Rouge foncé au survol */
 }
 
-
+/* Pour tous les boutons ayant la classe .button au survol */
 button.button:hover {
-    background-color: #000;
+    background-color: #000; /* Noir au survol */
 }
 
-
+/* Alignement à droite pour les actions (boutons) */
 .actions-right {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 10px;
+    justify-content: flex-end; /* Aligné à droite */
+    gap: 10px; /* Espacement entre boutons */
+    margin-top: 10px; /* Marge au-dessus */
 }
 
-
+/* Boutons <a> avec classe button au survol */
 a.button:hover {
     background-color: #000;
 }
 
+/* Conteneur d’authentification : centre et espace les éléments */
 .auth-container {
     display: flex;
     justify-content: center;
     gap: 60px;
     margin-top: 40px;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Passage en ligne suivante sur petits écrans */
 }
 
+/* Colonne individuelle dans la zone d’authentification */
 .auth-column {
     background-color: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ombre douce */
     padding: 20px;
     text-align: center;
     width: 300px;
@@ -151,7 +157,7 @@ a.button:hover {
 .auth-column button {
     padding: 10px 20px;
     border: none;
-    background-color: #2c3e50;
+    background-color: #2c3e50; /* Bleu foncé */
     color: white;
     font-size: 16px;
     border-radius: 6px;
@@ -160,18 +166,17 @@ a.button:hover {
 }
 
 .auth-column button:hover {
-    background-color: #1a252f;
+    background-color: #1a252f; /* Bleu encore plus foncé */
 }
 
-
-/* Formulaires */
+/* Styles pour les champs de formulaire */
 form input[type="text"],
 form input[type="email"],
 form input[type="password"],
 form textarea,
 form select {
     box-sizing: border-box;
-    width: 100%;
+    width: 100%; /* Prend toute la largeur */
     padding: 10px;
     margin-top: 5px;
     border-radius: 4px;
@@ -180,6 +185,7 @@ form select {
     font-size: 1rem;
 }
 
+/* Texte secondaire dans les formulaires */
 form small {
     display: block;
     color: #666;
@@ -187,12 +193,13 @@ form small {
     margin-bottom: 10px;
 }
 
+/* Texte d’erreur */
 .error {
     color: red;
     font-size: 0.9rem;
 }
 
-/* Layout d'accueil */
+/* Layout d’accueil avec espacement */
 .auth-container {
     display: flex;
     justify-content: space-between;
@@ -201,23 +208,21 @@ form small {
     margin-top: 30px;
 }
 
-
-
-
-/* Flux et publications */
+/* Styles pour tickets et reviews dans le flux */
 .ticket, .review {
     background-color: #fff;
     padding: 20px;
     border-radius: 6px;
     border: 1px solid #ccc;
     margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Ombre légère */
     box-sizing: border-box;
     max-width: 100%;
 }
 
+/* Images : centrées et redimensionnées */
 img {
-   display: block;
+    display: block;
     max-width: 300px;
     height: auto;
     margin: 10px auto;
@@ -225,21 +230,22 @@ img {
     object-fit: contain;
 }
 
-/* Ticket dans une review */
+/* Encadré spécifique pour un ticket affiché dans une review */
 .ticket-in-review {
     background-color: #f3f3f3;
     padding: 15px;
     margin-top: 15px;
-    border-left: 4px solid #ccc;
+    border-left: 4px solid #ccc; /* Bande colorée à gauche */
 }
 
-/* Sections & séparation */
+/* Ligne de séparation entre sections */
 hr {
     border: none;
     border-top: 1px solid #ddd;
     margin: 30px 0;
 }
 
+/* Conteneur de liens de création (boutons) */
 .create-links {
     display: flex;
     justify-content: center; 
@@ -247,21 +253,22 @@ hr {
     margin-bottom: 30px;
 }
 
-
+/* Élément de liste de suivi (follow) */
 .follow-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
 .follow-item .user-name {
-    flex-grow: 1;
+    flex-grow: 1; /* Prend tout l’espace disponible */
 }
 
 .follow-item form {
-    margin: 0;
+    margin: 0; /* Pas de marge */
 }
 
-/* Responsive */
+/* Responsive : adaptations sur petits écrans (tablettes, mobiles) */
 @media (max-width: 768px) {
     .auth-container {
         flex-direction: column;
@@ -277,17 +284,20 @@ hr {
         flex-direction: column;
         align-items: center;
     }
+
     img {
-        max-width: 150px;
+        max-width: 150px; /* Images plus petites */
     }
+
     .review, .ticket {
         padding: 15px 10px; 
         margin: 10px;       
     }
+
     .button, .auth-column button, button.button {
-        padding: 8px 14px;    /* moins haut et moins large */
-        font-size: 0.9rem;    /* texte légèrement plus petit */
-        min-width: 100px;     /* réduit la largeur minimale */
-        height: 36px;         /* réduit la hauteur */
+        padding: 8px 14px; /* Taille réduite des boutons */
+        font-size: 0.9rem; /* Texte légèrement plus petit */
+        min-width: 100px; /* Largeur minimale réduite */
+        height: 36px; /* Hauteur réduite */
     }
 }

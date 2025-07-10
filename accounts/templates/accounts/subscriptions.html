@@ -1,8 +1,18 @@
+<!--
+    Template : subscriptions.html
+    Description : Affiche et gère les abonnements entre utilisateurs.
+    - Barre de recherche pour trouver des utilisateurs.
+    - Liste des résultats de recherche avec option de suivre.
+    - Liste des utilisateurs suivis avec option de désabonnement.
+    - Liste des utilisateurs qui suivent l'utilisateur connecté.
+-->
 {% extends 'base_feed.html' %}
+
 {% block content %}
 <main>
 <h1>Abonnements</h1>
 
+{# Formulaire de recherche d'utilisateur #}
 <form method="get" action="{% url 'subscriptions' %}">
     <input type="text" name="q" placeholder="Rechercher un utilisateur" value="{{ query|default:'' }}">
     <div class="actions-right">
@@ -10,19 +20,25 @@
     </div>
 </form>
 
+{# Affichage des résultats si une recherche a été effectuée #}
 {% if query %}
     <h2>Results for "{{ query }}"</h2>
+    
     {% if search_results %}
         <ul>
+            {# Boucle sur les résultats de recherche #}
             {% for user in search_results %}
                 <div class="ticket follow-item">
                     <div class="user-name">
                         <strong>{{ user.username }}</strong>
+                        
                         {% if user in following %}
-                            <p >- already followed</p>
-                    </div>
-                    {% else %}   
-                        </div>             
+                            {# Si l'utilisateur est déjà suivi, indication sans bouton #}
+                            <p>- already followed</p>
+                        </div>
+                        {% else %}
+                            {# Si l'utilisateur n'est pas encore suivi, afficher le bouton de suivi #}
+                        </div>
                         <form method="post" action="{% url 'subscriptions' %}">
                             {% csrf_token %}
                             <input type="hidden" name="username" value="{{ user.username }}">
@@ -30,17 +46,19 @@
                                 <button type="submit" class="button">Follow</button>
                             </div>
                         </form>
-                    {% endif %}
+                        {% endif %}
                 </div>
             {% endfor %}
         </ul>
     {% else %}
+        {# Aucun utilisateur trouvé dans les résultats #}
         <p>No users found.</p>
     {% endif %}
 {% endif %}
 
 <hr>
 
+{# Liste des utilisateurs suivis #}
 <h2>Users I follow</h2>
 {% if following %}
     {% for user in following %}
@@ -48,21 +66,24 @@
             <div class="user-name">
                 <strong>{{ user.username }}</strong>
             </div>
+
+            {# Formulaire de désabonnement #}
             <form method="post" action="{% url 'subscriptions' %}">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="unfollow">
                 <input type="hidden" name="user_id" value="{{ user.id }}">
-                <button class="button delete-button" type="submit" >Unfollow</button>
+                <button class="button delete-button" type="submit">Unfollow</button>
             </form>
         </div>        
     {% endfor %}
-    
 {% else %}
+    {# Aucun utilisateur suivi #}
     <p>You're not following anyone.</p>
 {% endif %}
 
 <hr>
 
+{# Liste des utilisateurs qui suivent l'utilisateur connecté #}
 <h3>Users who follow me</h3>
 {% if followers %}
     {% for user in followers %}
@@ -75,6 +96,8 @@
 {% endif %}
 
 <hr>
+
+{# Lien de retour au fil d’actualité #}
 <a href="{% url 'feed' %}" class="button">Back to news feed</a>
 </main>
 {% endblock %}

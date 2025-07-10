@@ -11,6 +11,8 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LITRevu.settings')
+# Définit la variable d'environnement indiquant le fichier de configuration des settings Django
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "LITRevu.settings")
 
+# Crée et récupère l'application WSGI Django, qui sera le point d'entrée pour le serveur WSGI
 application = get_wsgi_application()

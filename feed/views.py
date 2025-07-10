@@ -8,162 +8,217 @@ from itertools import chain
 from operator import attrgetter
 
 
-# VUE DU FIL D'ACTUALITÉ
 def feed_view(request):
-    # Cette vue gère la requête HTTP et retourne la page "feed.html" située dans le dossier "feed"
+    """
+    Affiche le fil d'actualité pour l'utilisateur connecté.
+    Ce fil regroupe les tickets et critiques des utilisateurs suivis ainsi que ceux de l'utilisateur lui-même,
+    triés par date de création, du plus récent au plus ancien.
+
+    Args:
+        request (HttpRequest): La requête HTTP entrante.
+
+    Returns:
+        HttpResponse: La page 'feed.html' avec les éléments du fil d'actualité.
+    """
     current_user = request.user
-
-    # Récupérer les utilisateurs suivis
     followed_users = UserFollows.objects.filter(user=current_user).values_list("followed_user", flat=True)
-
-    # Inclure l'utilisateur courant dans les auteurs à afficher
     visible_users = list(followed_users) + [current_user.id]
 
-    # Récupérer les tickets et critiques des utilisateurs visibles
     tickets = Ticket.objects.filter(user__in=visible_users)
     reviews = Review.objects.filter(user__in=visible_users)
 
-    # Fusionner et trier par date de création (plus récent en premier)
     feed_items = sorted(chain(tickets, reviews), key=attrgetter("time_created"), reverse=True)
 
     return render(request, "feed/feed.html", {"feed_items": feed_items})
 
 
-# VUES POUR LES TICKETS
 @login_required
 def add_ticket(request):
-    # Initialise un formulaire de ticket, vide ou pré-rempli si POST
+    """
+    Permet à un utilisateur connecté de créer un nouveau ticket via un formulaire.
+
+    Args:
+        request (HttpRequest): La requête HTTP entrante.
+
+    Returns:
+        HttpResponse: Redirige vers le fil d'actualité en cas de succès, sinon réaffiche le formulaire.
+    """
     form = TicketForm(request.POST or None, request.FILES or None)
 
-    # Si le formulaire est valide, crée et enregistre un ticket
     if form.is_valid():
         ticket = form.save(commit=False)
-        ticket.user = request.user  # Attribue l'utilisateur courant
+        ticket.user = request.user
         ticket.save()
-        return redirect("feed")  # Redirige vers le fil d'actualité
+        return redirect("feed")
 
-    # Affiche le formulaire de création de ticket
     return render(request, "feed/ticket_form.html", {"form": form})
 
 
 @login_required
 def edit_ticket(request, ticket_id):
-    # Récupère le ticket à modifier ou affiche une erreur 404 s'il n'existe pas
+    """
+    Permet à l'auteur d'un ticket connecté d'éditer son ticket.
+
+    Args:
+        request (HttpRequest): La requête HTTP entrante.
+        ticket_id (int): L'identifiant du ticket à modifier.
+
+    Returns:
+        HttpResponse: Redirige vers le fil d'actualité si succès, sinon affiche le formulaire d'édition.
+        HttpResponseForbidden: Si l'utilisateur n'est pas l'auteur du ticket.
+    """
     ticket = get_object_or_404(Ticket, id=ticket_id)
 
-    # Vérifie que l'utilisateur courant est bien l'auteur du ticket
     if ticket.user != request.user:
         return HttpResponseForbidden()
 
-    # Initialise le formulaire avec les données existantes du ticket
     form = TicketForm(request.POST or None, request.FILES or None, instance=ticket)
 
-    # Si le formulaire est valide, enregistre les modifications
     if form.is_valid():
         form.save()
         return redirect("feed")
 
-    # Affiche le formulaire de modification
     return render(request, "feed/ticket_form.html", {"form": form, "ticket": ticket})
 
 
 @login_required
 def delete_ticket(request, ticket_id):
-    # Récupère le ticket à supprimer ou affiche une erreur 404
+    """
+    Permet à l'auteur d'un ticket de le supprimer après confirmation.
+
+    Args:
+        request (HttpRequest): La requête HTTP entrante.
+        ticket_id (int): L'identifiant du ticket à supprimer.
+
+    Returns:
+        HttpResponse: Redirige vers le fil d'actualité après suppression ou affiche la page de confirmation.
+        HttpResponseForbidden: Si l'utilisateur n'est pas l'auteur du ticket.
+    """
     ticket = get_object_or_404(Ticket, id=ticket_id)
 
-    # Vérifie que l'utilisateur courant est bien l'auteur
     if ticket.user != request.user:
         return HttpResponseForbidden()
 
-    # Si méthode POST, supprime le ticket et redirige
     if request.method == "POST":
         ticket.delete()
         return redirect("feed")
 
-    # Sinon, affiche la page de confirmation
     return render(request, "feed/ticket_confirm_delete.html", {"ticket": ticket})
 
 
 @login_required
 def ticket_detail(request, ticket_id):
+    """
+    Affiche les détails d'un ticket ainsi que toutes ses critiques associées.
+
+    Args:
+        request (HttpRequest): La requête HTTP entrante.
+        ticket_id (int): L'identifiant du ticket à afficher.
+
+    Returns:
+        HttpResponse: La page de détail du ticket avec ses critiques.
+    """
     ticket = get_object_or_404(Ticket, id=ticket_id)
-    reviews = ticket.reviews.all()  # récupère toutes les critiques associées
+    reviews = ticket.reviews.all()
     return render(request, "feed/ticket_detail.html", {"ticket": ticket, "reviews": reviews})
 
 
-# VUES POUR LES REVIEWS
 @login_required
 def add_review(request, ticket_id):
-    # Récupère le ticket associé à la critique
+    """
+    Permet d'ajouter une critique à un ticket donné, si aucune critique n'existe déjà pour ce ticket.
+
+    Args:
+        request (HttpRequest): La requête HTTP entrante.
+        ticket_id (int): L'identifiant du ticket à critiquer.
+
+    Returns:
+        HttpResponse: Redirige vers le fil d'actualité ou vers le détail du ticket en cas d'erreur.
+    """
     ticket = get_object_or_404(Ticket, id=ticket_id)
 
-    # Vérifie s'il existe déjà une critique pour ce ticket
     existing_review = Review.objects.filter(ticket=ticket).first()
     if existing_review:
-        # Tu peux retourner une erreur, rediriger ou afficher un message
-        # Par exemple, ici on redirige vers le détail du ticket avec un message d'erreur
         from django.contrib import messages
 
         messages.error(request, "Ce ticket a déjà une critique, vous ne pouvez pas en créer une autre.")
         return redirect("ticket_detail", ticket_id=ticket.id)
 
-    # Initialise un formulaire de critique
     form = ReviewForm(request.POST or None)
 
-    # Si le formulaire est valide, crée et enregistre une critique
     if form.is_valid():
         review = form.save(commit=False)
         review.user = request.user
-        review.ticket = ticket  # Associe la critique au ticket
+        review.ticket = ticket
         review.save()
         return redirect("feed")
 
-    # Affiche le formulaire de création de critique
     return render(request, "feed/review_form.html", {"form": form, "ticket": ticket})
 
 
 @login_required
 def edit_review(request, review_id):
-    # Récupère la critique à modifier
+    """
+    Permet à l'auteur d'une critique de la modifier.
+
+    Args:
+        request (HttpRequest): La requête HTTP entrante.
+        review_id (int): L'identifiant de la critique à modifier.
+
+    Returns:
+        HttpResponse: Redirige vers le fil d'actualité ou affiche le formulaire d'édition.
+        HttpResponseForbidden: Si l'utilisateur n'est pas l'auteur de la critique.
+    """
     review = get_object_or_404(Review, id=review_id)
 
-    # Vérifie que l'utilisateur courant est l'auteur
     if review.user != request.user:
         return HttpResponseForbidden()
 
-    # Initialise le formulaire avec les données existantes
     form = ReviewForm(request.POST or None, instance=review)
 
-    # Si le formulaire est valide, enregistre les modifications
     if form.is_valid():
         form.save()
         return redirect("feed")
 
-    # Affiche le formulaire de modification
     return render(request, "feed/review_form.html", {"form": form, "ticket": review.ticket})
 
 
 @login_required
 def delete_review(request, review_id):
-    # Récupère la critique à supprimer
+    """
+    Permet à l'auteur d'une critique de la supprimer après confirmation.
+
+    Args:
+        request (HttpRequest): La requête HTTP entrante.
+        review_id (int): L'identifiant de la critique à supprimer.
+
+    Returns:
+        HttpResponse: Redirige vers le fil d'actualité ou affiche la page de confirmation.
+        HttpResponseForbidden: Si l'utilisateur n'est pas l'auteur de la critique.
+    """
     review = get_object_or_404(Review, id=review_id)
 
-    # Vérifie que l'utilisateur est bien l'auteur
     if review.user != request.user:
         return HttpResponseForbidden()
 
-    # Si méthode POST, supprime la critique et redirige
     if request.method == "POST":
         review.delete()
         return redirect("feed")
 
-    # Affiche la page de confirmation
     return render(request, "feed/review_confirm_delete.html", {"review": review})
 
 
 @login_required
 def add_review_without_ticket(request):
+    """
+    Permet à un utilisateur connecté de créer simultanément un ticket et une critique associée.
+
+    Args:
+        request (HttpRequest): La requête HTTP entrante.
+
+    Returns:
+        HttpResponse: Redirige vers le fil d'actualité en cas de succès, sinon affiche les formulaires.
+    """
     ticket_form = TicketForm(request.POST or None, request.FILES or None)
     review_form = ReviewForm(request.POST or None)
 
@@ -181,19 +236,27 @@ def add_review_without_ticket(request):
             return redirect("feed")
 
     return render(
-        request, "feed/add_review_without_ticket.html", {"ticket_form": ticket_form, "review_form": review_form}
+        request,
+        "feed/add_review_without_ticket.html",
+        {"ticket_form": ticket_form, "review_form": review_form},
     )
 
 
 @login_required
 def my_posts_view(request):
-    user = request.user
+    """
+    Affiche les tickets et critiques créés par l'utilisateur connecté, triés par date décroissante.
 
-    # Récupérer uniquement les tickets et critiques créés par l'utilisateur connecté
+    Args:
+        request (HttpRequest): La requête HTTP entrante.
+
+    Returns:
+        HttpResponse: La page listant les publications de l'utilisateur.
+    """
+    user = request.user
     tickets = Ticket.objects.filter(user=user)
     reviews = Review.objects.filter(user=user)
 
-    # Fusionner et trier par date de création décroissante
     my_posts = sorted(chain(tickets, reviews), key=attrgetter("time_created"), reverse=True)
 
     return render(request, "feed/my_posts.html", {"my_posts": my_posts})

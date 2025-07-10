@@ -4,108 +4,126 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, FollowUserForm
 from .models import UserFollows
 
-
 User = get_user_model()
 
 
 def login_view(request):
+    """
+    Affiche le formulaire de connexion et gère la soumission du formulaire.
+    Si l'utilisateur est déjà connecté, il est redirigé vers le feed principal.
+
+    Méthodes acceptées : GET, POST
+
+    - GET : Affiche le formulaire de connexion vide.
+    - POST : Valide les données de connexion et connecte l'utilisateur.
+    """
     if request.user.is_authenticated:
+        # Redirection si utilisateur déjà connecté
         return redirect("feed")
+
     # Initialisation du formulaire de connexion vide
     login_form = CustomAuthenticationForm()
 
-    # Si le formulaire est soumis en méthode POST
     if request.method == "POST":
-        # On remplit le formulaire avec les données reçues
+        # Remplissage du formulaire avec les données reçues
         login_form = CustomAuthenticationForm(data=request.POST)
 
-        # Validation des données du formulaire
         if login_form.is_valid():
-            # Récupération de l'utilisateur connecté
+            # Récupération et connexion de l'utilisateur authentifié
             user = login_form.get_user()
-
-            # Connexion de l'utilisateur dans la session
             login(request, user)
-
-            # Redirection vers la page principale (feed)
             return redirect("feed")
         else:
-            # En cas d'erreur, on affiche les erreurs dans la console (pour debug)
+            # Affichage des erreurs dans la console pour debug
             print(login_form.errors)
 
-    # Affichage du template avec le formulaire de connexion (GET ou en cas d'erreur)
+    # Affichage du formulaire (GET ou en cas d'erreur)
     return render(
         request,
         "accounts/home.html",
-        {
-            "login_form": login_form,
-        },
+        {"login_form": login_form},
     )
 
 
 def signup_view(request):
-    # Si formulaire soumis en POST, on traite les données reçues
+    """
+    Affiche le formulaire d'inscription et gère la création d'un nouvel utilisateur.
+
+    Méthodes acceptées : GET, POST
+
+    - GET : Affiche un formulaire d'inscription vide.
+    - POST : Valide et crée un nouvel utilisateur, puis le connecte automatiquement.
+    """
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
 
-        # Validation du formulaire
         if form.is_valid():
-            # Sauvegarde du nouvel utilisateur en base
+            # Sauvegarde de l'utilisateur et connexion automatique
             user = form.save()
-
-            # Connexion automatique du nouvel utilisateur
             login(request, user)
-
-            # Redirection vers la page principale (feed)
             return redirect("feed")
     else:
-        # Si méthode GET, on crée un formulaire vide
+        # Création d'un formulaire vide pour GET
         form = CustomUserCreationForm()
 
-    # Affichage du formulaire d'inscription dans le template
+    # Affichage du formulaire d'inscription
     return render(request, "accounts/signup.html", {"form": form})
 
 
 def logout_view(request):
-    # Déconnexion de l'utilisateur
+    """
+    Déconnecte l'utilisateur courant et redirige vers la page d'accueil.
+    """
     logout(request)
-
-    # Redirection vers la page d'accueil
     return redirect("home")
 
 
 @login_required
 def subscriptions_view(request):
+    """
+    Gère les abonnements de l'utilisateur connecté :
+    - Affiche les utilisateurs suivis et les abonnés.
+    - Permet de rechercher des utilisateurs.
+    - Permet de suivre ou de se désabonner d'un utilisateur.
+
+    Méthodes acceptées : GET, POST
+
+    GET : Affiche la liste des abonnements, abonnés et résultats de recherche.
+    POST : Traite l'action de suivre ou de ne plus suivre un utilisateur.
+    """
     current_user = request.user
     query = request.GET.get("q", "")
 
-    # Gestion du formulaire de suivi
     if request.method == "POST":
         if request.POST.get("action") == "unfollow":
+            # Traitement de la désinscription
             user_id = request.POST.get("user_id")
             user_to_unfollow = get_object_or_404(User, id=user_id)
             UserFollows.objects.filter(user=current_user, followed_user=user_to_unfollow).delete()
             return redirect("subscriptions")
         else:
+            # Traitement de l'abonnement via le formulaire
             form = FollowUserForm(request.POST)
             if form.is_valid():
                 user_to_follow = form.cleaned_data["username"]
+                # Eviter de s'abonner à soi-même
                 if user_to_follow != current_user:
                     UserFollows.objects.get_or_create(user=current_user, followed_user=user_to_follow)
                 return redirect("subscriptions")
     else:
+        # Initialisation d'un formulaire vide en GET
         form = FollowUserForm()
 
-    # Recherche des utilisateurs (exclut soi-même)
+    # Recherche des utilisateurs par nom d'utilisateur, exclusion de soi-même
     search_results = []
     if query:
         search_results = User.objects.filter(username__icontains=query).exclude(id=current_user.id)
 
-    # Liste des utilisateurs suivis
+    # Récupération des utilisateurs suivis par l'utilisateur courant
     following_relations = UserFollows.objects.filter(user=current_user)
     following = [relation.followed_user for relation in following_relations]
 
-    # Liste des utilisateurs qui me suivent
+    # Récupération des utilisateurs qui suivent l'utilisateur courant
     followers_relations = UserFollows.objects.filter(followed_user=current_user)
     followers = [relation.user for relation in followers_relations]
 
@@ -116,4 +134,6 @@ def subscriptions_view(request):
         "search_results": search_results,
         "query": query,
     }
+
+    # Rendu de la page des abonnements
     return render(request, "accounts/subscriptions.html", context)

@@ -22,9 +22,18 @@ from django.conf.urls.static import static
 from accounts.views import login_view
 
 
+# Liste des routes URL de l’application Django
 urlpatterns = [
+    # Page d’accueil : redirige vers la vue de connexion
     path("", login_view, name="home"),
+    # Inclusion des URLs spécifiques à l'application 'accounts' (inscription, gestion utilisateur, etc.)
     path("accounts/", include("accounts.urls")),
+    # Inclusion des URLs spécifiques à l'application 'feed' (flux principal, tickets, reviews, etc.)
     path("feed/", include("feed.urls")),
+    # Interface d’administration Django
     path("admin/", admin.site.urls),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+# Ajout de la gestion des fichiers médias en mode développement
+# Permet de servir les fichiers uploadés (images, etc.) via MEDIA_URL
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

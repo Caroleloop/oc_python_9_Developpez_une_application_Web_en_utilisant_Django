@@ -2,10 +2,19 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import User, UserFollows
 
-# Enregistrement du modèle User dans l'administration Django
+"""
+Module d'administration Django pour les modèles personnalisés User et UserFollows.
 
-# On utilise UserAdmin pour bénéficier des fonctionnalités avancées de gestion des utilisateurs
+Ce module enregistre les modèles dans l'interface d'administration Django,
+permettant ainsi une gestion facile des utilisateurs et de leurs relations de suivi.
+"""
+
+# Enregistrement du modèle User avec les fonctionnalités avancées de UserAdmin
+# UserAdmin fournit une interface d'administration complète pour la gestion des utilisateurs,
+# incluant la gestion des permissions, groupes, et autres attributs spécifiques.
 admin.site.register(User, UserAdmin)
 
-# Cela permet de gérer les relations de suivi entre utilisateurs via l'interface d'administration
+# Enregistrement du modèle UserFollows
+# Ce modèle représente les relations de suivi entre utilisateurs (qui suit qui).
+# En l'enregistrant ici, on peut gérer ces relations directement via l'administration Django.
 admin.site.register(UserFollows)

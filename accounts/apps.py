@@ -1,10 +1,17 @@
 from django.apps import AppConfig
 
 
-# Définition de la configuration de l'application 'accounts'
 class AccountsConfig(AppConfig):
-    # Spécifie le type de champ utilisé par défaut pour les clés primaires dans les modèles
+    """
+    Configuration de l'application 'accounts' pour Django.
+
+    Attributs :
+        default_auto_field (str): Type de champ utilisé par défaut pour les clés primaires dans les modèles.
+        name (str): Nom de l'application.
+    """
+
+    # Type de champ par défaut pour les clés primaires dans les modèles de cette application
     default_auto_field = "django.db.models.BigAutoField"
 
-    # Nom de l'application Django
+    # Nom de l'application Django tel qu'il apparaît dans INSTALLED_APPS
     name = "accounts"

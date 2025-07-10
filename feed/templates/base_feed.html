@@ -1,23 +1,32 @@
 {% load static %} 
+{# Charge la balise 'static' pour gérer les fichiers statiques (CSS, JS, images) #}
 
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- Lien vers la feuille de style CSS via le système de fichiers statiques de Django -->
+    {# Lien vers la feuille de style CSS via le système de fichiers statiques de Django #}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    {# Permet de rendre la page responsive sur tous les appareils (mobiles, tablettes, etc.) #}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 
-<!-- Titre principal de la page -->
-<header>
-    <h1>LITReview</h1>
-    <nav>
-        <a href="{% url 'subscriptions' %}">Abonnements</a>
-        <a href="{% url 'feed' %}">Flux</a>
-        <a href="{% url 'my_posts' %}">Posts</a>
-        <!-- Bouton pour se déconnecter -->
-        <a href="{% url 'logout' %}">Logout</a>
-    </nav>
-</header>
+<body>
+    <!-- Titre principal de la page -->
+    <header>
+        <h1>LITReview</h1>
+        <nav>
+            {# Liens de navigation vers différentes pages de l'application #}
+            <a href="{% url 'subscriptions' %}">Abonnements</a>
+            <a href="{% url 'feed' %}">Flux</a>
+            <a href="{% url 'my_posts' %}">Posts</a>
+            
+            {# Lien pour se déconnecter, renvoie à la vue de logout #}
+            <a href="{% url 'logout' %}">Logout</a>
+        </nav>
+    </header>
 
-<!-- Zone où le contenu spécifique de chaque page s'affiche -->
-{% block content %}
-{% endblock %}
+    {# Bloc où chaque template enfant peut injecter son contenu spécifique #}
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

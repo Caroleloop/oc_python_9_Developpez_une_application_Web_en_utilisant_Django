@@ -1,56 +1,69 @@
 {% extends "base_feed.html" %}
-{% load custom_tags %}
+{% load custom_tags %} {# Charge les filtres personnalisés, dont 'instanceof' #}
 
 {% block content %}
 <main>
 <h1>My post</h1>
 
+{# Vérifie s’il existe des posts créés par l’utilisateur connecté #}
 {% if my_posts %}
+    {# Boucle sur chaque post (Ticket ou Review) #}
     {% for item in my_posts %}
+
+        {# --- Affichage d'un TICKET --- #}
         {% if item|instanceof:"Ticket" %}
             <div class="ticket">
                 <h3>🎫 Ticket : {{ item.title }}</h3>
                 <p>{{ item.description }}</p>
+
                 {% if item.image %}
                     <img src="{{ item.image.url }}" alt="Image du ticket">
                 {% endif %}
+
                 <p><em>Created on {{ item.time_created|date:"d/m/Y H:i" }}</em></p>
-                <div class="actions-right">            
+
+                <div class="actions-right">
+                    {# L'utilisateur peut modifier ou supprimer ses propres tickets #}
                     <button class="button" onclick="location.href='{% url 'edit_ticket' item.id %}'">Modify</button>
-                    <button class="button delete-button" onclick="location.href='{% url 'delete_ticket' item.id %}'">🗑️ Delete</button>
+                    <button class="button delete-button" onclick="if(confirm('Delete this ticket?')) location.href='{% url 'delete_ticket' item.id %}'">🗑️ Delete</button>
                 </div>
             </div>
         {% endif %}
 
+        {# --- Affichage d'une REVIEW --- #}
         {% if item|instanceof:"Review" %}
             <div class="review">
                 <h3>📝 Review : {{ item.headline }}</h3>
                 <p>Note : {{ item.rating }}/5</p>
                 <p>{{ item.body }}</p>
                 <p><em>Created on {{ item.time_created|date:"d/m/Y H:i" }}</em></p>
+
                 <div class="ticket-in-review">
-                    <h4> Associated ticket : {{ item.ticket.title }}</h4>
+                    <h4>Associated ticket : {{ item.ticket.title }}</h4>
                     <p>{{ item.ticket.description }}</p>
                     {% if item.ticket.image %}
                         <img src="{{ item.ticket.image.url }}" alt="Image du ticket associé">
                     {% endif %}
                 </div>
+
                 <div class="actions-right">
-                    <button class="button" onclick="location.href='{% url 'edit_review' item.id %}'">Modify</button>
-                    <form method="post" action="{% url 'delete_review' item.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="button delete-button" onclick="return confirm('Delete this review ?')">🗑️ Delete</button>
-                    </form>
+                    {% if item.user == request.user %}
+                        <button class="button" onclick="location.href='{% url 'edit_review' item.id %}'">Modify</button>
+                        <button class="button delete-button" onclick="if(confirm('Delete this review?')) location.href='{% url 'delete_review' item.id %}'">🗑️ Delete</button>
+                    {% endif %}
                 </div>
             </div>  
         {% endif %}
+
     {% endfor %}
 {% else %}
     <p>You haven't published any tickets or reviews yet.</p>
 {% endif %}
 
-
 <hr>
+
+{# Lien de retour vers le flux principal #}
 <a href="{% url 'feed' %}" class="button">Back to news feed</a>
+
 </main>
 {% endblock %}

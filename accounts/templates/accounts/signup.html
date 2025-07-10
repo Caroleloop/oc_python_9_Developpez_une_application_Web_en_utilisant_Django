@@ -1,29 +1,54 @@
-{% extends "base.html" %} {# Ce template hérite de base.html pour réutiliser la structure commune du site #}
+<!-- 
+Template : register.html
+Description : Ce template est utilisé pour afficher un formulaire d'inscription. 
+Il hérite du layout de base défini dans "base.html" et intègre un formulaire Django 
+avec gestion des champs, des erreurs et de l'accessibilité.
+-->
 
-{% block content %} {# Début du bloc de contenu spécifique à cette page #}
- 
+{% extends "base.html" %} {# Hérite du template de base pour la structure générale du site #}
+
+{% block content %} {# Début du bloc de contenu principal spécifique à cette page #}
+
   <h1>Create an account</h1> {# Titre principal de la page d'inscription #}
 
-  <form method="post" aria-label="Registration form"> {# Formulaire HTML utilisant la méthode POST, avec un label ARIA pour l'accessibilité #}
-    {% csrf_token %} {# Jeton CSRF pour sécuriser le formulaire contre les attaques CSRF #}
+  <form method="post" aria-label="Registration form">
+    {# Formulaire HTML utilisant la méthode POST, avec un label ARIA pour l'accessibilité #}
+    
+    {% csrf_token %}
+    {# Jeton CSRF requis pour sécuriser le formulaire contre les attaques Cross-Site Request Forgery #}
 
-    {% for field in form %} {# Boucle sur chaque champ du formulaire Django #}
-      <div style="margin-bottom: 1em;"> {# Conteneur avec un espacement en bas pour chaque champ #}
-        <label for="{{ field.id_for_label }}">{{ field.label }}</label><br> {# Affiche l'étiquette du champ liée à l'input #}
-        {{ field }} {# Rend le champ HTML du formulaire (input, textarea, etc.) #}
+    {% for field in form %}
+    {# Boucle sur chaque champ du formulaire généré automatiquement par Django #}
+    
+      <div style="margin-bottom: 1em;">
+        {# Conteneur avec une marge inférieure pour espacer visuellement les champs du formulaire #}
+        
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
+        {# Affiche l’étiquette du champ, liée à l’élément d'entrée via son attribut "for" #}
 
-        {% if field.help_text %} {# Vérifie s'il y a un texte d'aide pour le champ #}
-          <small>{{ field.help_text }}</small> {# Affiche le texte d'aide sous le champ #}
+        {{ field }}
+        {# Rend le champ HTML (input, textarea, select, etc.) associé au champ du formulaire #}
+
+        {% if field.help_text %}
+          <small>{{ field.help_text }}</small>
+          {# Affiche un texte d'aide si défini pour ce champ dans le formulaire Django #}
         {% endif %}
 
-        {% if field.errors %} {# Vérifie s'il y a des erreurs de validation pour le champ #}
-          <div role="alert" style="color: red;">{{ field.errors }}</div> {# Affiche les erreurs en rouge, avec un rôle ARIA d'alerte pour l'accessibilité #}
+        {% if field.errors %}
+          <div role="alert" style="color: red;">{{ field.errors }}</div>
+          {# Affiche les messages d'erreurs de validation en rouge, 
+             avec un rôle ARIA "alert" pour l'accessibilité #}
         {% endif %}
       </div>
-    {% endfor %} {# Fin de la boucle sur les champs #}
 
-    <button type="submit">Sign up</button> {# Bouton de soumission du formulaire #}
+    {% endfor %}
+    {# Fin de la boucle sur les champs du formulaire #}
+
+    <button type="submit" class="button">Sign up</button>
+    {# Bouton pour soumettre le formulaire d'inscription #}
   </form>
 
-  <p>Already have an account? <a href="{% url 'home' %}">Login</a></p> {# Lien vers la page de connexion si l'utilisateur a déjà un compte #}
-{% endblock %} {# Fin du bloc de contenu #}
+  <p>Already have an account? <a href="{% url 'home' %}">Login</a></p>
+  {# Message pour les utilisateurs existants avec un lien vers la page de connexion #}
+
+{% endblock %}

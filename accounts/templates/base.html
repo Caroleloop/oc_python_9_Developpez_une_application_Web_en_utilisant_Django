@@ -1,22 +1,68 @@
-<!DOCTYPE html> <!-- Déclaration du type de document, ici HTML5 -->
-{% load static %} <!-- Charge le tag 'static' de Django pour inclure des fichiers statiques -->
+<!DOCTYPE html> 
+<!-- 
+  Déclaration du type de document : HTML5.
+  Cela informe le navigateur que le document est un fichier HTML5.
+-->
 
-<html lang="en"> <!-- Début du document HTML avec la langue définie sur anglais -->
+{% load static %} 
+<!-- 
+  Chargement de la balise 'static' de Django.
+  Permet d'inclure des fichiers statiques (CSS, images, JS) avec la syntaxe Django.
+-->
+
+<html lang="en"> 
+<!-- 
+  Balise racine du document HTML.
+  L'attribut 'lang' est défini sur 'en' pour indiquer que la langue principale est l'anglais.
+-->
+
 <head>
-  <meta charset="UTF-8" /> <!-- Définit l'encodage des caractères en UTF-8 -->
-  <title>{% block title %}LITRevu{% endblock %}</title> <!-- Bloc de titre modifiable par les templates enfants, avec une valeur par défaut "LITRevu" -->
-  <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- Lien vers la feuille de style CSS via le système de fichiers statiques de Django -->
-  <meta name="viewport" content="width=device-width, initial-scale=1" /> <!-- Règle l'affichage responsive sur mobile -->
+  <meta charset="UTF-8" /> 
+  <!-- 
+    Définit l'encodage des caractères du document à UTF-8.
+    Cela garantit que les caractères spéciaux sont correctement affichés.
+  -->
+
+  <title>{% block title %}LITRevu{% endblock %}</title> 
+  <!-- 
+    Bloc titre modifiable par les templates enfants.
+    Si aucun titre n'est défini dans un template enfant, "LITRevu" sera affiché par défaut.
+  -->
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+  <!-- 
+    Inclusion de la feuille de style CSS via le système de fichiers statiques de Django.
+    Le fichier CSS est situé dans le dossier 'css' sous le répertoire statique.
+  -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+  <!-- 
+    Meta tag pour rendre le site responsive.
+    Définit la largeur de la fenêtre d'affichage au niveau de l'appareil et un zoom initial de 1.
+  -->
+
   <link rel="icon" href="{% static 'favicon.ico' %}">
+  <!-- 
+    Lien vers l'icône favicon du site.
+    Elle est chargée depuis les fichiers statiques de Django.
+  -->
 </head>
 
 <header>
-    <h1>LITReview</h1>
+    <h1>LITReview</h1> 
+    <!-- 
+      Titre principal affiché dans l'en-tête de la page.
+    -->
 </header>
 
 <body>
   <main>
-    {% block content %}{% endblock %} <!-- Bloc de contenu principal modifiable dans les templates enfants -->
+    {% block content %}{% endblock %} 
+    <!-- 
+      Bloc principal modifiable par les templates enfants.
+      C’est ici que le contenu spécifique à chaque page sera inséré.
+    -->
   </main>
 </body>
+
 </html>

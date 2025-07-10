@@ -1,22 +1,42 @@
+<!-- 
+  Template de la page d'accueil de LITRevu. 
+  Ce template hérite de "base.html" et propose deux actions principales :
+  - Créer un compte (redirection vers la vue d'inscription)
+  - Se connecter (formulaire de connexion)
+-->
+
 {% extends "base.html" %}
 {% block title %}Home - LITRevu{% endblock %}
-{% block content %}
 
-<!-- Conteneur principal pour les sections "Inscription" et "Connexion" -->
+{% block content %}
+<!-- 
+  Conteneur principal pour les deux sections :
+  - Section de gauche : création de compte
+  - Section de droite : connexion utilisateur 
+-->
 <div class="auth-container">
 
-  <!-- Colonne pour l'inscription : contient un bouton qui redirige vers la page d'inscription -->
+  <!-- 
+    Colonne gauche : Invitation à s'inscrire
+    Comporte un titre et un bouton menant à la vue 'signup' 
+  -->
   <div class="auth-column">
     <h2>Create an account</h2>
     <a href="{% url 'signup' %}">
-      <button type="button">Sign up</button> <!-- Bouton de redirection vers le formulaire d'inscription -->
+      <button type="button">Sign up</button> <!-- Redirection vers le formulaire d'inscription -->
     </a>
   </div>
 
-  <!-- Colonne pour la connexion : contient un formulaire de login -->
+  <!-- 
+    Colonne droite : Formulaire de connexion
+    Contient un formulaire POST envoyé à la vue 'login'
+  -->
   <div class="auth-column">
     <h2>Log in</h2>
-    <!-- Formulaire POST envoyé à l'URL associée à la vue 'login' -->
+     <!-- 
+      Formulaire sécurisé via CSRF token 
+      Itère dynamiquement sur les champs du formulaire transmis par le contexte Django
+    -->
     <form method="post" action="{% url 'login' %}">
       {% csrf_token %} <!-- Jeton CSRF pour sécuriser le formulaire -->
       
@@ -27,7 +47,7 @@
           <!-- Affiche le champ (input, etc.) -->
           {{ field }}
           {% if field.errors %}
-            <!-- Si des erreurs sont présentes pour ce champ, elles sont affichées ici -->
+            <!-- Affichage des messages d'erreurs liés à ce champ-->
             <div class="error">{{ field.errors }}</div>
           {% endif %}
         </div>

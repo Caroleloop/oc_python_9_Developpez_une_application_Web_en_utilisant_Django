@@ -1,27 +1,35 @@
 {% extends "base_feed.html" %}
+
 {% block content %}
 <main>
 <h1>Ticket details</h1>
-<div cclass="ticket">
+
+{# Affichage des détails du ticket sélectionné #}
+<div class="ticket">
     <h3>{{ ticket.title }}</h3>
     <p>{{ ticket.description }}</p>
+
+    {# Affiche l'image si elle existe #}
     {% if ticket.image %}
         <img src="{{ ticket.image.url }}" alt="Image du ticket" >
     {% endif %}
 </div>
 
-
+{# Titre dynamique selon si une review est en cours d’édition ou de création #}
 <h2>{% if review %}Edit{% else %}Create{% endif %} a review</h2>
 
+{# Si une review existe déjà pour ce ticket, affichage d’un message bloquant #}
 {% if ticket.review_set.exists %}
-    <p>Une critique existe déjà pour ce ticket, vous ne pouvez pas en créer une autre.</p>
+    <p>A review already exists for this ticket; you can't create a new one.</p>
 {% else %}
+    {# Formulaire pour créer une nouvelle review liée à ce ticket #}
     <form method="post" class="review">
         {% csrf_token %}
         {{ form.as_p }}
+
         <div class="actions-right">
-            <button type="submit" class="button">Validate</button>
-            <a href="{% url 'feed' %}" class="button ">Cancel</a>
+            <button type="submit" class="button">Send</button>
+            <a href="{% url 'feed' %}" class="button">Cancel</a>
         </div>
     </form>
 {% endif %}

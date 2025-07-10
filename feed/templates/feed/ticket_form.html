@@ -1,15 +1,27 @@
 {% extends "base_feed.html" %}
+
 {% block content %}
 <main>
-<h1>{% if ticket %}Edit{% else %}Create{% endif %} a ticket</h1>
+    {# Titre dynamique selon création ou édition du ticket #}
+    <h1>{% if ticket %}Edit{% else %}Create{% endif %} a ticket</h1>
 
-<form method="post" enctype="multipart/form-data" class="ticket">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div class="actions-right">
-        <button type="submit" class="button">Validate</button>
-        <a href="{% url 'feed' %}" class="button">Cancel</a>
-    </div>
-</form>
+    {# Formulaire POST pour créer/éditer un ticket avec gestion de fichiers (images) #}
+    <form method="post" enctype="multipart/form-data" class="ticket">
+        {% csrf_token %}
+
+        {# Affiche automatiquement les champs du formulaire avec mise en forme paragraphe #}
+        {{ form.as_p }}
+
+        {# Si on est en mode édition et qu'une image existe, l'afficher #}
+        {% if ticket and ticket.image %}
+            <img src="{{ ticket.image.url }}" alt="Current ticket image" style="max-width: 300px; height: auto;">
+        {% endif %}
+        
+        {# Boutons d'action pour envoyer ou annuler #}
+        <div class="actions-right">
+            <button type="submit" class="button">Send</button>
+            <a href="{% url 'feed' %}" class="button">Cancel</a>
+        </div>
+    </form>
 </main>
 {% endblock %}

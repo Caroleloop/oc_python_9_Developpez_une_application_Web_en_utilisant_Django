@@ -1,15 +1,23 @@
 {% extends "base_feed.html" %}
+
 {% block content %}
 <main>
 <h1>Delete ticket</h1>
 
+{# Encadré contenant le message de confirmation de suppression #}
 <div class="ticket">
-    <p>Are you sure you want to delete this ticket: <strong>{{ ticket.title }}</strong> ?</p>
 
+    {# Message de confirmation avec affichage du titre du ticket #}
+    <p>Are you sure you want to delete this ticket: <strong>{{ ticket.title }}</strong>?</p>
+
+    {# Formulaire sécurisé avec token CSRF pour valider la suppression #}
     <form method="post">
         {% csrf_token %}
         <div class="actions-right">
+            {# Bouton pour confirmer la suppression #}
             <button type="submit" class="button delete-button">Yes, delete</button>
+
+            {# Lien pour annuler et revenir au fil d’actualité #}
             <a href="{% url 'feed' %}" class="button">Cancel</a>
         </div>
     </form>
