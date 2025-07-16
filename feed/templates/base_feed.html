@@ -3,11 +3,16 @@
 
 <html lang="en">
 <head>
-    {# Lien vers la feuille de style CSS via le système de fichiers statiques de Django #}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
+    <meta charset="UTF-8" />
     {# Permet de rendre la page responsive sur tous les appareils (mobiles, tablettes, etc.) #}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{% block title %}LITReview{% endblock %}</title>
+    <meta name="description" content="LITReview – Request, publish and read reviews of books and articles." />
+    <meta name="keywords" content="literature, review, book, article" />
+
+    {# Lien vers la feuille de style CSS via le système de fichiers statiques de Django #}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>

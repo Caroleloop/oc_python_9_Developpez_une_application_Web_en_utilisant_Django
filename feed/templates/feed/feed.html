@@ -22,7 +22,7 @@
             <p>{{ item.description }}</p>
 
             {% if item.image %}
-                <img src="{{ item.image.url }}" alt="Image du ticket" >
+                <img src="{{ item.image.url }}" alt="Image du ticket" width="300" height="200">
             {% endif %} 
 
             <div class="actions-right">
@@ -54,7 +54,7 @@
                 <p><strong>By:</strong> {{ item.ticket.user.username }} - {{ item.ticket.time_created }}</p>
                 <p><strong>Description:</strong> {{ item.ticket.description }}</p>
                 {% if item.ticket.image %}
-                    <img src="{{ item.ticket.image.url }}" alt="Ticket image">
+                    <img src="{{ item.ticket.image.url }}" alt="Ticket image" width="300" height="200">
                 {% endif %}
             </div>
             

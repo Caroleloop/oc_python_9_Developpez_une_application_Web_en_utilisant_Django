@@ -17,7 +17,7 @@
                 <p>{{ item.description }}</p>
 
                 {% if item.image %}
-                    <img src="{{ item.image.url }}" alt="Image du ticket">
+                    <img src="{{ item.image.url }}" alt="Image du ticket" width="300" height="200">
                 {% endif %}
 
                 <p><em>Created on {{ item.time_created|date:"d/m/Y H:i" }}</em></p>
@@ -42,7 +42,7 @@
                     <h4>Associated ticket : {{ item.ticket.title }}</h4>
                     <p>{{ item.ticket.description }}</p>
                     {% if item.ticket.image %}
-                        <img src="{{ item.ticket.image.url }}" alt="Image du ticket associé">
+                        <img src="{{ item.ticket.image.url }}" alt="Image du ticket associé" width="300" height="200">
                     {% endif %}
                 </div>
 

@@ -38,7 +38,7 @@
                         </div>
                         {% else %}
                             {# Si l'utilisateur n'est pas encore suivi, afficher le bouton de suivi #}
-                        </div>
+                        
                         <form method="post" action="{% url 'subscriptions' %}">
                             {% csrf_token %}
                             <input type="hidden" name="username" value="{{ user.username }}">

@@ -20,7 +20,7 @@ avec gestion des champs, des erreurs et de l'accessibilité.
     {% for field in form %}
     {# Boucle sur chaque champ du formulaire généré automatiquement par Django #}
     
-      <div style="margin-bottom: 1em;">
+      <div>
         {# Conteneur avec une marge inférieure pour espacer visuellement les champs du formulaire #}
         
         <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
@@ -35,7 +35,7 @@ avec gestion des champs, des erreurs et de l'accessibilité.
         {% endif %}
 
         {% if field.errors %}
-          <div role="alert" style="color: red;">{{ field.errors }}</div>
+          <div role="alert">{{ field.errors }}</div>
           {# Affiche les messages d'erreurs de validation en rouge, 
              avec un rôle ARIA "alert" pour l'accessibilité #}
         {% endif %}

@@ -14,7 +14,7 @@
 
         {# Si on est en mode édition et qu'une image existe, l'afficher #}
         {% if ticket and ticket.image %}
-            <img src="{{ ticket.image.url }}" alt="Current ticket image" style="max-width: 300px; height: auto;">
+            <img src="{{ ticket.image.url }}" alt="Current ticket image" width="300" height="200">
         {% endif %}
         
         {# Boutons d'action pour envoyer ou annuler #}
