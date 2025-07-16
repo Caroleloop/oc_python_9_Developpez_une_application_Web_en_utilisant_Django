@@ -6,6 +6,7 @@ from .models import Ticket, Review
 from .forms import TicketForm, ReviewForm
 from itertools import chain
 from operator import attrgetter
+from django.db import models
 
 
 def feed_view(request):
@@ -25,7 +26,7 @@ def feed_view(request):
     visible_users = list(followed_users) + [current_user.id]
 
     tickets = Ticket.objects.filter(user__in=visible_users)
-    reviews = Review.objects.filter(user__in=visible_users)
+    reviews = Review.objects.filter(models.Q(user__in=visible_users) | models.Q(ticket__in=tickets))
 
     feed_items = sorted(chain(tickets, reviews), key=attrgetter("time_created"), reverse=True)
 
