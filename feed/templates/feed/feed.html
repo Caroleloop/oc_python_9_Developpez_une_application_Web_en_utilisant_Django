@@ -11,19 +11,18 @@
 </div>
 
 <!-- Conteneur principal du flux (tickets et critiques) -->
-<div class="auth-container">
 
   {% for item in feed_items %}
     {# Vérifie si l'élément est un ticket #}
     {% if item|instance_of:'Ticket' %}
         <div class="ticket">
             <h2>🎫 Ticket : {{ item.title }}</h2>
-            <p>Par {{ item.user.username }} - {{ item.time_created }}</p>
             <p>{{ item.description }}</p>
 
             {% if item.image %}
-                <img src="{{ item.image.url }}" alt="Image du ticket" width="300" height="200">
-            {% endif %} 
+                <img src="{{ item.image.url }}" alt="Image du ticket" width="300" height="auto">
+            {% endif %}
+            <p>By {{ item.user.username }} - {{ item.time_created }}</p>
 
             <div class="actions-right">
                 {# Affiche le bouton "Create a review" si aucune critique n'est liée au ticket #}
@@ -43,19 +42,20 @@
     {% elif item|instance_of:'Review' %}
         <div class="review">
             <h2>📝 Review : {{ item.headline }}</h2>
-            <p>By {{ item.user.username }} - {{ item.time_created }}</p>
             <p>Note : {{ item.rating }}/5</p>
             <p>{{ item.body }}</p>
+            <p>By {{ item.user.username }} - {{ item.time_created }}</p>
 
             {# Affiche les informations du ticket lié à cette review #}
             <div class="ticket-in-review">
                 <h3>🎫 Ticket linked to this review :</h3>
                 <p><strong>Title:</strong> {{ item.ticket.title }}</p>
-                <p><strong>By:</strong> {{ item.ticket.user.username }} - {{ item.ticket.time_created }}</p>
+                
                 <p><strong>Description:</strong> {{ item.ticket.description }}</p>
                 {% if item.ticket.image %}
                     <img src="{{ item.ticket.image.url }}" alt="Ticket image" width="300" height="200">
                 {% endif %}
+                <p><strong>By:</strong> {{ item.ticket.user.username }} - {{ item.ticket.time_created }}</p>
             </div>
             
             <div class="actions-right">
@@ -72,8 +72,6 @@
   {% empty %}
     <p>Nothing to display for the moment.</p>
   {% endfor %}
-
-</div>
 
 </main> 
 {% endblock %}

@@ -13,11 +13,11 @@
         {# --- Affichage d'un TICKET --- #}
         {% if item|instanceof:"Ticket" %}
             <div class="ticket">
-                <h3>🎫 Ticket : {{ item.title }}</h3>
+                <h2>🎫 Ticket : {{ item.title }}</h2>
                 <p>{{ item.description }}</p>
 
                 {% if item.image %}
-                    <img src="{{ item.image.url }}" alt="Image du ticket" width="300" height="200">
+                    <img src="{{ item.image.url }}" alt="Image du ticket" width="300" height="auto">
                 {% endif %}
 
                 <p><em>Created on {{ item.time_created|date:"d/m/Y H:i" }}</em></p>
@@ -25,7 +25,7 @@
                 <div class="actions-right">
                     {# L'utilisateur peut modifier ou supprimer ses propres tickets #}
                     <button class="button" onclick="location.href='{% url 'edit_ticket' item.id %}'">Modify</button>
-                    <button class="button delete-button" onclick="if(confirm('Delete this ticket?')) location.href='{% url 'delete_ticket' item.id %}'">🗑️ Delete</button>
+                    <button class="button delete-button" onclick="location.href='{% url 'delete_ticket' item.id %}'">🗑️ Delete</button>
                 </div>
             </div>
         {% endif %}
@@ -33,7 +33,7 @@
         {# --- Affichage d'une REVIEW --- #}
         {% if item|instanceof:"Review" %}
             <div class="review">
-                <h3>📝 Review : {{ item.headline }}</h3>
+                <h2>📝 Review : {{ item.headline }}</h2>
                 <p>Note : {{ item.rating }}/5</p>
                 <p>{{ item.body }}</p>
                 <p><em>Created on {{ item.time_created|date:"d/m/Y H:i" }}</em></p>
